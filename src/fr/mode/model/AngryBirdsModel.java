@@ -1,15 +1,13 @@
 package fr.mode.model;
 
-import java.awt.Toolkit;
+import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import fr.mode.constantes.Constantes;
-import fr.mode.observer.Observable;
-import fr.mode.observer.Observer;
 import fr.mode.view.AngryBirdsView;
 
-public class AngryBirdsModel implements Observable {
+public class AngryBirdsModel extends Observable {
 	/*
 	 * CONSTRUCTEUR DE LA CLASSE
 	 */
@@ -18,32 +16,50 @@ public class AngryBirdsModel implements Observable {
 	// Constructeur de la classe, permet d'initialiser la fenêtre
 	// et de lancer la trame
 	
-	public AngryBirdsModel(String title, int milliseconds) {
+	public AngryBirdsModel() {
 		
-		vue = new AngryBirdsView(title);
+		// *********************************************************************
+		// Initialiser la position de départ
 		
+		PlayerPos[0] = 10;
+		PlayerPos[1] = 400;
+		
+		// **********************************************************************
+		// Initialiser la vitesse de départ
+		
+		PlayerSpeed[0] = 10;
+		PlayerSpeed[1] = 9;
+				
+		// **********************************************************************
+		// Initialiser la physique à "true"
+		
+		g = true;
+				
+		// **********************************************************************
+		// Initialiser le timer
 		timer = new Timer();
-		timer.schedule(new FrameTask(milliseconds), milliseconds);
+		timer.schedule(new FrameTask(), 0, 1);
 	}
 	
+	/*
+	 * CLASSE INTERNE
+	 */
+	
 	// *********************************************************************
-	// Classe internet héritant de TimerTask pour redéfinir la méthode run
+	// Classe interne héritant de TimerTask pour redéfinir la méthode run
 	// et utiliser le Timer
 	
-	static class FrameTask extends TimerTask {
-		
-		int milli;
-		
-		public FrameTask (int milli) {
-			this.milli = milli;
-		}
+	class FrameTask extends TimerTask {
 		
 		public void run () {
 			
-			while (poursuiteAnim()) {
-				trame(milli);
-				milli++;
+			if (poursuiteAnim()) {
+				trame();
+			} else {
+				timer.cancel();
 			}
+			setChanged();
+			notifyObservers();
 		}
 	}
 
@@ -54,24 +70,7 @@ public class AngryBirdsModel implements Observable {
 	// *********************************************************************
 	// Méthode gérant toute la physique appliquée à nos objets dessinés par le panel
 	
-	public static void trame (int milli) {
-			
-		// *********************************************************************
-		// Initialiser la position de départ
-		
-		PlayerPos[0] = 10;
-		PlayerPos[1] = 400;
-		
-		// **********************************************************************
-		// Initialiser la vitesse de départ
-		
-		PlayerSpeed[0] = 0;
-		PlayerSpeed[1] = 9;
-			
-			/* On initialise le buffer */
-			int Buffer = milli;
-		
-			g = true;
+	public static void trame() {
 			
 			// Vérifications que l'oiseau est dans la scène
 			if ((PlayerPos[0]+Constantes.DIAMETRE) > Constantes.BORD_GAUCHE 
@@ -80,17 +79,6 @@ public class AngryBirdsModel implements Observable {
 					&& (PlayerPos[1]+Constantes.DIAMETRE) < Constantes.SOL) {
 			
 				if (PlayerPos[1]+Constantes.DIAMETRE >= Constantes.SOL) {
-					/* gestion du rebond */
-//					if (PlayerSpeed[1] > 1)
-//						PlayerSpeed[1] = -(PlayerSpeed[1]*.9);
-					/* gestion de la friction */
-//					if (PlayerSpeed[0] > .01)
-//						PlayerSpeed[0]*=.8;
-//					else
-//						PlayerSpeed[0] = 0;
-//						PlayerSpeed[1] = 0;
-//						
-//					PlayerPos[1] = 400;
 					g = false;
 				}
 				
@@ -99,13 +87,7 @@ public class AngryBirdsModel implements Observable {
 				
 				PlayerPos[0]+=PlayerSpeed[0];
 				PlayerPos[1]+=PlayerSpeed[1];
-				
-				vue.repaint();
-				
-				if (milli - Buffer < FrameRate) {
-					timer.schedule(new FrameTask(milli), (long)FrameRate-(milli-Buffer));
-				}
-			
+							
 			} else {
 				
 				PlayerSpeed[0] = 0;
@@ -119,22 +101,7 @@ public class AngryBirdsModel implements Observable {
 	
 	public static boolean poursuiteAnim () {
 		
-		return false;
-	}
-	
-	// *********************************************************************
-	// Implementation des methodes de l'interface
-	
-	public void addObserver(Observer obs) {
-		
-	}
-
-	public void removeObserver() {
-		
-	}
-
-	public void notifyObserver(String obs) {
-		
+		return true;
 	}
 	
 	/*

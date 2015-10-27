@@ -2,15 +2,16 @@ package fr.mode.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Observable;
+import java.util.Observer;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import fr.mode.model.AngryBirdsModel;
-import fr.mode.observer.Observer;
 import fr.mode.constantes.*;
 
 @SuppressWarnings("serial")
-public class AngryBirdsView extends JFrame implements Observer{
+public class AngryBirdsView extends JPanel implements Observer {
 	
 	/*
 	 * CONSTRUCTEUR DE LA CLASSE
@@ -19,13 +20,15 @@ public class AngryBirdsView extends JFrame implements Observer{
 	// *********************************************************************
 	// Constructeur permettant d'initialiser la frame
 	
-	public AngryBirdsView (String title) {
+	public AngryBirdsView (AngryBirdsModel m) {
 	
-		this.setTitle(title);
-		setBounds(0,0,Constantes.BORD_DROIT, Constantes.SOL);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);
+		this.m = m;
+		m.addObserver(this);
 	}
+	
+	/*
+	 * METHODES DE LA CLASSE
+	 */
 	
 	// *********************************************************************
 	// La methode qui sera appelee a chaque repaint pour mettre a jour
@@ -70,10 +73,20 @@ public class AngryBirdsView extends JFrame implements Observer{
 		
 	}
 	
+	/*
+	 * METHODES IMPLEMENTEES DE L'INTERFACE
+	 */
+	
 	// *********************************************************************
 	// Implementation des methodes de l'interface
 	
-	public void update(String str) {
+	public void update(Observable arg0, Object arg1) {
 		
 	}
+	
+	/*
+	 * VARIABLES GLOBALES DE LA CLASSE
+	 */
+
+	protected AngryBirdsModel m;
 }
