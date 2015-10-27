@@ -1,16 +1,19 @@
 package fr.mode.main;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 import fr.mode.constantes.Constantes;
-import fr.mode.model.*;
-import fr.mode.view.*;
+import fr.mode.model.AngryBirdsModel;
+import fr.mode.view.AngryBirdsView;
 
 public class Launch extends JFrame {
 
 	public Launch(AngryBirdsView v) {
 		
 		this.setTitle("Oiseaux énervés");
+		this.setPreferredSize(new Dimension(1750,1500));
 		this.setVisible(true);
 
 		setBounds(0, 0, Constantes.BORD_DROIT, Constantes.SOL);
