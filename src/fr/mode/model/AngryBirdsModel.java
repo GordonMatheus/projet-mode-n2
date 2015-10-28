@@ -27,9 +27,9 @@ public class AngryBirdsModel extends Observable {
 		// **********************************************************************
 		// Initialiser la vitesse de départ
 		
-		PlayerSpeed[0] = 10;
-		PlayerSpeed[1] = 9;
-				
+		PlayerSpeed[0] = 13;
+		PlayerSpeed[1] = -5;
+			
 		// **********************************************************************
 		// Initialiser la physique à "true"
 		
@@ -38,7 +38,7 @@ public class AngryBirdsModel extends Observable {
 		// **********************************************************************
 		// Initialiser le timer
 		timer = new Timer();
-		timer.schedule(new FrameTask(), 0, 1);
+		timer.schedule(new FrameTask(), 0, 24);
 	}
 	
 	/*
@@ -93,6 +93,8 @@ public class AngryBirdsModel extends Observable {
 				PlayerSpeed[0] = 0;
 				PlayerSpeed[1] = 0;
 			}
+			System.out.println("PlayerPos : " + PlayerPos[0] + ":" + PlayerPos[1]);
+			System.out.println("PlayerSpeed : " + PlayerSpeed[0] + ":" + PlayerSpeed[1]);
 	}
 	
 	// *********************************************************************
@@ -101,7 +103,10 @@ public class AngryBirdsModel extends Observable {
 	
 	public static boolean poursuiteAnim () {
 		
-		return true;
+		return (PlayerPos[0]+Constantes.DIAMETRE) > Constantes.BORD_GAUCHE 
+		&& (PlayerPos[0]+Constantes.DIAMETRE) < Constantes.BORD_DROIT 
+		&& (PlayerPos[1]+Constantes.DIAMETRE) > Constantes.PLAFOND 
+		&& (PlayerPos[1]+Constantes.DIAMETRE) < Constantes.SOL;
 	}
 	
 	/*

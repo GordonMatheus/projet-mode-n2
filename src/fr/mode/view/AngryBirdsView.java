@@ -81,7 +81,7 @@ public class AngryBirdsView extends JPanel implements Observer {
 	// Implementation des methodes de l'interface
 	
 	public void update(Observable arg0, Object arg1) {
-		
+		repaint();
 	}
 	
 	/*
