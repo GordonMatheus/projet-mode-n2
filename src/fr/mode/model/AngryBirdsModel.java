@@ -1,5 +1,6 @@
 package fr.mode.model;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -71,30 +72,14 @@ public class AngryBirdsModel extends Observable {
 	// Méthode gérant toute la physique appliquée à nos objets dessinés par le panel
 	
 	public static void trame() {
-			
-			// Vérifications que l'oiseau est dans la scène
-			if ((PlayerPos[0]+Constantes.DIAMETRE) > Constantes.BORD_GAUCHE 
-					&& (PlayerPos[0]+Constantes.DIAMETRE) < Constantes.BORD_DROIT 
-					&& (PlayerPos[1]+Constantes.DIAMETRE) > Constantes.PLAFOND 
-					&& (PlayerPos[1]+Constantes.DIAMETRE) < Constantes.SOL) {
-			
-				if (PlayerPos[1]+Constantes.DIAMETRE >= Constantes.SOL) {
-					g = false;
-				}
+		if (g)
+			PlayerSpeed[1]+=0.1;
 				
-				if (g)
-					PlayerSpeed[1]+=0.1;
-				
-				PlayerPos[0]+=PlayerSpeed[0];
-				PlayerPos[1]+=PlayerSpeed[1];
-							
-			} else {
-				
-				PlayerSpeed[0] = 0;
-				PlayerSpeed[1] = 0;
-			}
-			System.out.println("PlayerPos : " + PlayerPos[0] + ":" + PlayerPos[1]);
-			System.out.println("PlayerSpeed : " + PlayerSpeed[0] + ":" + PlayerSpeed[1]);
+		PlayerPos[0]+=PlayerSpeed[0];
+		PlayerPos[1]+=PlayerSpeed[1];
+
+		System.out.println("PlayerPos : " + PlayerPos[0] + ":" + PlayerPos[1]);
+		System.out.println("PlayerSpeed : " + PlayerSpeed[0] + ":" + PlayerSpeed[1]);
 	}
 	
 	// *********************************************************************
@@ -133,6 +118,12 @@ public class AngryBirdsModel extends Observable {
 	// Tableau de 2 cases ( = x,y ) pour la vitesse du joueur
 	
 	public static double PlayerSpeed[] = new double[2];
+	
+	// *********************************************************************
+	// Liste des obstacles présents 
+	
+	public static ArrayList<Obstacle> listeObstacles = new ArrayList<Obstacle>();
+	
 	
 	// *********************************************************************
 	// Booléen pour vérifier si notre objet a encore besoin d'être

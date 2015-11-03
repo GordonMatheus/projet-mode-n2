@@ -8,6 +8,9 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import fr.mode.model.AngryBirdsModel;
+import fr.mode.model.Obstacle;
+import fr.mode.model.ObstacleRect;
+import fr.mode.model.ObstacleRond;
 import fr.mode.constantes.*;
 
 @SuppressWarnings("serial")
@@ -61,16 +64,20 @@ public class AngryBirdsView extends JPanel implements Observer {
 		g.fillPolygon(x, y, 3);
 	
 		// *********************************************************************
-		// Dessin des ennemis
-		
+		// Dessin des obstacles
 		g.setColor(new Color(0, 0, 255));
-		g.fillOval((int)(Constantes.BORD_DROIT*0.9), 40, 20, 20);
-		g.fillRect((int)(Constantes.BORD_DROIT*0.82), 600, 30, 10);
-		g.fillRect((int)(Constantes.BORD_DROIT*0.930), 440, 10, 30);
-		g.fillOval((int)(Constantes.BORD_DROIT*0.817), 230, 25, 25);
-		g.fillRect((int)(Constantes.BORD_DROIT*0.932), 510, 20, 40);
-		g.fillOval((int)(Constantes.BORD_DROIT*0.721), 730, 15, 15);
-		
+		AngryBirdsModel.listeObstacles.add(new ObstacleRond( 1600, 400, 80));
+		AngryBirdsModel.listeObstacles.add(new ObstacleRond(1200, 100, 80));
+		AngryBirdsModel.listeObstacles.add(new ObstacleRect(200, 100, 40,60));
+		AngryBirdsModel.listeObstacles.add(new ObstacleRect(1020, 800, 100,20));
+	
+		for (Obstacle o : AngryBirdsModel.listeObstacles){
+			if(o instanceof ObstacleRond)
+				g.fillOval((int)(o.getObstaclePosX()+ o.getDimensionsHeight()/2),(int)(o.getObstaclePosY()+o.getDimensionsLenght()/2), o.getDimensionsHeight(), o.getDimensionsLenght());
+			else
+				g.fillRect((int)o.getObstaclePosX(),(int)o.getObstaclePosY(), o.getDimensionsHeight(), o.getDimensionsLenght());
+
+		}
 	}
 	
 	/*
