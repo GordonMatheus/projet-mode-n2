@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package fr.mode.model;
 
 public abstract class Obstacle {
@@ -21,3 +22,13 @@ public abstract class Obstacle {
 	abstract boolean collision (); 
 	
 }
+=======
+package fr.mode.model;
+
+public abstract class Obstacle {
+	public double ObstaclePos[]=new double[2];
+	
+	abstract boolean collision (); 
+	
+}
+>>>>>>> origin/master
