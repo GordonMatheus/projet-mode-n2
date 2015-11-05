@@ -19,5 +19,4 @@ public class Constantes {
 		// Constante du diamètre de l'oiseau
 		
 		public final static int DIAMETRE = 60;
-	
 }
