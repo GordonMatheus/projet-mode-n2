@@ -1,7 +1,9 @@
 package fr.mode.model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,7 +30,7 @@ public class AngryBirdsModel extends Observable {
 		// **********************************************************************
 		// Initialiser la vitesse de départ
 		
-		PlayerSpeed[0] = 13;
+		PlayerSpeed[0] = 5;
 		PlayerSpeed[1] = -5;
 			
 		// **********************************************************************
@@ -39,7 +41,7 @@ public class AngryBirdsModel extends Observable {
 		// **********************************************************************
 		// Initialiser le timer
 		timer = new Timer();
-		timer.schedule(new FrameTask(), 0, 24);
+		timer.schedule(new FrameTask(), 0, 18);
 	}
 	
 	/*
@@ -54,13 +56,33 @@ public class AngryBirdsModel extends Observable {
 		
 		public void run () {
 			
+			Random r = new Random();
+			
 			if (poursuiteAnim()) {
 				trame();
+				cpt++;
 			} else {
-				timer.cancel();
+				if (cpt < 10) {
+					//timer.schedule(this, 200);
+					PlayerPos[0] = 5 + r.nextInt(15);
+					PlayerPos[1] = 50 + r.nextInt(650);
+					PlayerSpeed[0] = 5 + r.nextInt(15);
+					PlayerSpeed[1] = -1 * r.nextInt(8);
+					
+					trajectoryX.clear();
+					trajectoryY.clear();
+					
+					setChanged();
+					notifyObservers();
+				} else {
+					timer.cancel();
+				}
 			}
 			setChanged();
 			notifyObservers();
+			
+			trajectoryX.add((int)PlayerPos[0]);
+			trajectoryY.add((int)PlayerPos[1]);
 		}
 	}
 
@@ -87,11 +109,12 @@ public class AngryBirdsModel extends Observable {
 	// en cours sont respectées à chaque frame ou non
 	
 	public static boolean poursuiteAnim () {
+		// Encore à faire - ce return n'est que provisoire
 		
 		return (PlayerPos[0]+Constantes.DIAMETRE) > Constantes.BORD_GAUCHE 
-		&& (PlayerPos[0]+Constantes.DIAMETRE) < Constantes.BORD_DROIT 
-		&& (PlayerPos[1]+Constantes.DIAMETRE) > Constantes.PLAFOND 
-		&& (PlayerPos[1]+Constantes.DIAMETRE) < Constantes.SOL;
+				&& (PlayerPos[0]+Constantes.DIAMETRE) < Constantes.BORD_DROIT 
+				&& (PlayerPos[1]+Constantes.DIAMETRE) > Constantes.PLAFOND 
+				&& (PlayerPos[1]+Constantes.DIAMETRE) < Constantes.SOL;
 	}
 	
 	/*
@@ -108,6 +131,11 @@ public class AngryBirdsModel extends Observable {
 		
 	public static int FrameRate = 12;
 	public static int FinalFrameRate = 0;
+	
+	// *********************************************************************
+	// Compteur du nombre de vols réalisés
+	
+	public int cpt = 0;
 
 	// *********************************************************************
 	// Tableau de 2 cases ( = x,y ) pour la position du joueur
@@ -120,10 +148,16 @@ public class AngryBirdsModel extends Observable {
 	public static double PlayerSpeed[] = new double[2];
 	
 	// *********************************************************************
+	// Tableau des positions
+	
+	public static List<Integer> trajectoryX = new ArrayList<Integer>();
+	public static List<Integer> trajectoryY = new ArrayList<Integer>();
+	
+	// *********************************************************************
 	// Liste des obstacles présents 
 	
 	public static ArrayList<Obstacle> listeObstacles = new ArrayList<Obstacle>();
-	
+
 	
 	// *********************************************************************
 	// Booléen pour vérifier si notre objet a encore besoin d'être

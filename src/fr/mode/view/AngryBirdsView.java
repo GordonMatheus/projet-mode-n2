@@ -44,6 +44,17 @@ public class AngryBirdsView extends JPanel implements Observer {
 		
 		g.setColor(new Color(255, 255, 255));
 		g.fillRect(0, 0, getSize().width, getSize().height);
+
+		// *********************************************************************
+		// On dessine la trajectoire
+		// *********************************************************************
+		
+		g.setColor(new Color(0,0,0));
+		int size = AngryBirdsModel.trajectoryX.size();
+		for(int i =0;i<size;i++){
+			g.fillRect(AngryBirdsModel.trajectoryX.get(i)+15, AngryBirdsModel.trajectoryY.get(i)+15, 5,5);
+			
+		}
 		
 		// *********************************************************************
 		// On dessine notre objet
@@ -63,8 +74,10 @@ public class AngryBirdsView extends JPanel implements Observer {
 		g.setColor(new Color(0, 0, 0));
 		g.fillPolygon(x, y, 3);
 	
+		
 		// *********************************************************************
 		// Dessin des obstacles
+		
 		g.setColor(new Color(0, 0, 255));
 		AngryBirdsModel.listeObstacles.add(new ObstacleRond( 1600, 400, 80));
 		AngryBirdsModel.listeObstacles.add(new ObstacleRond(1200, 100, 80));
