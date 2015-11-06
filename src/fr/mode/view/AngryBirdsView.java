@@ -27,6 +27,10 @@ public class AngryBirdsView extends JPanel implements Observer {
 	
 		this.m = m;
 		m.addObserver(this);
+		AngryBirdsModel.listeObstacles.add(new ObstacleRect( 800, 400, 80, 50));
+		AngryBirdsModel.listeObstacles.add(new ObstacleRect(600, 100, 80, 50));
+		AngryBirdsModel.listeObstacles.add(new ObstacleRect(200, 100, 40, 50));
+		//AngryBirdsModel.listeObstacles.add(new ObstacleRond(1020, 800, 100));
 	}
 	
 	/*
@@ -59,17 +63,17 @@ public class AngryBirdsView extends JPanel implements Observer {
 		// *********************************************************************
 		// On dessine notre objet
 		
-		g.setColor(new Color(255, 0, 0));
-		g.fillOval((int)AngryBirdsModel.PlayerPos[0], (int)AngryBirdsModel.PlayerPos[1], 40, 40);
+		g.setColor(m.getColorBird());
 		
+		g.fillOval((int)AngryBirdsModel.PlayerPos[0], (int)AngryBirdsModel.PlayerPos[1], Constantes.DIAMETRE/2,  Constantes.DIAMETRE/2);
 		g.setColor(new Color(0, 0, 0));
-		g.drawOval((int)AngryBirdsModel.PlayerPos[0], (int) AngryBirdsModel.PlayerPos[1], 40, 40);		
+		g.drawOval((int)AngryBirdsModel.PlayerPos[0], (int) AngryBirdsModel.PlayerPos[1],  Constantes.DIAMETRE/2,  Constantes.DIAMETRE/2);		
 	
 		// *********************************************************************
 		// Dessin du bec
 		
-		int [] x = { (int)AngryBirdsModel.PlayerPos[0]+40 , (int)AngryBirdsModel.PlayerPos[0]+40 , (int)AngryBirdsModel.PlayerPos[0]+50 };
-		int [] y = { (int)AngryBirdsModel.PlayerPos[1]+13 , (int)AngryBirdsModel.PlayerPos[1]+27 , (int)AngryBirdsModel.PlayerPos[1]+20 };
+		int [] x = { (int)AngryBirdsModel.PlayerPos[0]+  Constantes.DIAMETRE/2 , (int)AngryBirdsModel.PlayerPos[0]+  Constantes.DIAMETRE/2 , (int)AngryBirdsModel.PlayerPos[0]+Constantes.DIAMETRE-20 };
+		int [] y = { (int)AngryBirdsModel.PlayerPos[1]+8 , (int)AngryBirdsModel.PlayerPos[1]+22 , (int)AngryBirdsModel.PlayerPos[1]+Constantes.DIAMETRE/4};
 		
 		g.setColor(new Color(0, 0, 0));
 		g.fillPolygon(x, y, 3);
@@ -79,10 +83,7 @@ public class AngryBirdsView extends JPanel implements Observer {
 		// Dessin des obstacles
 		
 		g.setColor(new Color(0, 0, 255));
-		AngryBirdsModel.listeObstacles.add(new ObstacleRond( 1600, 400, 80));
-		AngryBirdsModel.listeObstacles.add(new ObstacleRond(1200, 100, 80));
-		AngryBirdsModel.listeObstacles.add(new ObstacleRect(200, 100, 40,60));
-		AngryBirdsModel.listeObstacles.add(new ObstacleRect(1020, 800, 100,20));
+
 	
 		for (Obstacle o : AngryBirdsModel.listeObstacles){
 			if(o instanceof ObstacleRond)

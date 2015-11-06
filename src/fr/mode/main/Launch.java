@@ -8,18 +8,8 @@ import fr.mode.constantes.Constantes;
 import fr.mode.model.AngryBirdsModel;
 import fr.mode.view.AngryBirdsView;
 
-/**
- * <b>La classe Launch</b>
- * <p>
- * Classe créant la fenêtre et contenant
- * le main du programme.
- * </p>
- */
 public class Launch extends JFrame {
 
-	/** Constructeur d'un Launch, soit un lancement du jeu. 
-	 * 
-	 */
 	public Launch() {
 		
 		this.setTitle("Oiseaux énervés");
@@ -37,9 +27,6 @@ public class Launch extends JFrame {
 		this.pack();
 	}
 	
-	/** Main du jeu, le lançant.
-	 * 
-	 */
 	public static void main(String[] args) {
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
