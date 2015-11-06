@@ -2,6 +2,13 @@ package fr.mode.model;
 
 import fr.mode.constantes.Constantes;
 
+/**
+ * <b>La classe ObstacleRect</b>
+ * <p>
+ * Elle représente un obstacle de forme rectangulaire, et permet
+ * de calculer les conditions de sa collision avec l'oiseau. 
+ * </p>
+ */
 public class ObstacleRect extends Obstacle {
 	
 	/** Constructeur de l'objet ObstacleRect, 
@@ -28,13 +35,15 @@ public class ObstacleRect extends Obstacle {
 	 */
 	@Override
 	boolean collision() {
+		//   Calcule si l'oiseau est en dessous de l'obstacle ou non, afin d'appliquer le théorème de Thales avec la longueur ou la largeur de l'obstacle.
 		if(AngryBirdsModel.PlayerPos[0]<this.ObstaclePos[0] && AngryBirdsModel.PlayerPos[0]>(this.ObstaclePos[0]+dimensions[1]) )
-			if((Math.sqrt(Math.pow(AngryBirdsModel.PlayerPos[0]- ObstaclePos[0] ,2.0)+ Math.pow(AngryBirdsModel.PlayerPos[1]- ObstaclePos[1] ,2.0)))-Constantes.DIAMETRE
-					>= (AngryBirdsModel.PlayerPos[0]- ObstaclePos[0])* (Math.sqrt(Math.pow(AngryBirdsModel.PlayerPos[0]- ObstaclePos[0] ,2.0)+ Math.pow(AngryBirdsModel.PlayerPos[1]
-							- ObstaclePos[1] ,2.0)))/ (dimensions[0]/2))
+			//   Calcule si la distance entre l'oiseau et l'obstacle, soustait à la moitié de du diamètre de l'oiseau, est supérieure ou égale la distance entre le centre de l'obstacle et l'une de ses extrémités.
+			if((Math.sqrt(Math.pow(AngryBirdsModel.PlayerPos[0]- ObstaclePos[0] ,2.0)+ Math.pow(AngryBirdsModel.PlayerPos[1]- ObstaclePos[1] ,2.0)))-(Constantes.DIAMETRE/2)
+					>= (AngryBirdsModel.PlayerPos[0]- ObstaclePos[0])* (Math.sqrt(Math.pow(AngryBirdsModel.PlayerPos[0]- ObstaclePos[0] ,2.0)+ Math.pow(AngryBirdsModel.PlayerPos[1]- ObstaclePos[1] ,2.0)))/ (dimensions[0]/2))
 				return true;
-		else	
-			if((Math.sqrt(Math.pow(AngryBirdsModel.PlayerPos[0]- ObstaclePos[0] ,2.0)+ Math.pow(AngryBirdsModel.PlayerPos[1]- ObstaclePos[1] ,2.0)))-Constantes.DIAMETRE
+		else
+			//   Calcule si la distance entre l'oiseau et l'obstacle, soustait à la moitié de du diamètre de l'oiseau, est supérieure ou égale la distance entre le centre de l'obstacle et l'une de ses extrémités.  
+			if((Math.sqrt(Math.pow(AngryBirdsModel.PlayerPos[0]- ObstaclePos[0] ,2.0)+ Math.pow(AngryBirdsModel.PlayerPos[1]- ObstaclePos[1] ,2.0)))-(Constantes.DIAMETRE/2)
 					>= (AngryBirdsModel.PlayerPos[1]- ObstaclePos[1])* (Math.sqrt(Math.pow(AngryBirdsModel.PlayerPos[0]- ObstaclePos[0] ,2.0)+ Math.pow(AngryBirdsModel.PlayerPos[1]- ObstaclePos[1] ,2.0)))/ (dimensions[1]/2))
 				return true;		
 		return false;

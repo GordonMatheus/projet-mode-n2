@@ -1,5 +1,15 @@
 package fr.mode.model;
 
+/**
+ * <b>La classe abstraite Obstacle</b>
+ * <p>
+ * Il y a deux types d'ostacles :
+ * <ul>
+ * <li>ObstacleRect</li>
+ * <li>ObstacleRond</li>
+ * </ul>
+ * </p>
+ */
 public abstract class Obstacle {
 	protected double ObstaclePos[]=new double[2];
 	protected int dimensions[]= new int[2];
@@ -38,7 +48,8 @@ public abstract class Obstacle {
 
 	/** 
 	 * Calcule la distance entre l'obstacle et l'oiseau 
-	 * pour déterminer s'ils entrent en collision.
+	 * pour déterminer s'ils entrent en collision. Cette
+	 * méthode dépend du type de l'obstacle.
 	 * 
 	 * @return boolean Vrai si la distance entre l'obstacle et l'oiseau est inférieure ou égale à 0, faux sinon.
 	 */

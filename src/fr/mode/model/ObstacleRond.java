@@ -2,6 +2,13 @@ package fr.mode.model;
 
 import fr.mode.constantes.Constantes;
 
+/**
+ * <b>La classe ObstacleRond</b>
+ * <p>
+ * Elle représente un obstacle de forme rectangulaire, et permet
+ * de calculer les conditions de sa collision avec l'oiseau. 
+ * </p>
+ */
 public class ObstacleRond extends Obstacle {
 	
 	/** Constructeur de l'objet ObstacleRond, 
@@ -27,7 +34,8 @@ public class ObstacleRond extends Obstacle {
 	 */
 	@Override
 	boolean collision() {
+		// Calcule si la distance séparant le centre de l'oiseau et celui de l'obstacle  est supérieure à leur deux rayons.
 		return ( (Math.sqrt(Math.pow(AngryBirdsModel.PlayerPos[0]- ObstaclePos[0] ,2.0)+ Math.pow(AngryBirdsModel.PlayerPos[1]- ObstaclePos[1] ,2.0)))
-				<= (Constantes.DIAMETRE + dimensions[0]));
+				<= (Constantes.DIAMETRE/2 + dimensions[0]/2));
 	}
 }
