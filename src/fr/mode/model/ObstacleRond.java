@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 import fr.mode.constantes.Constantes;
 
 /**
- * La classe ObstacleRond représente un obstacle de forme circulaire
+ * <b>La classe ObstacleRond représente un obstacle de forme circulaire</b>
  */
 public class ObstacleRond extends Obstacle {
 

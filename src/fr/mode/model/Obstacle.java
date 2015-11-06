@@ -9,6 +9,7 @@ package fr.mode.model;
  * <li>Ses dimensions</li>
  * </ul>
  * </p> 
+ * 
  */
 public abstract class Obstacle {
 	
@@ -55,8 +56,7 @@ public abstract class Obstacle {
 	}
 
 	/** 
-	 * Calcule la distance entre l'obstacle et l'oiseau 
-	 * pour déterminer s'ils entrent en collision.
+	 * Détermine s'il y a collision entre un oiseau et un obstacle
 	 * 
 	 * @return boolean Vrai si la distance entre l'obstacle et l'oiseau est inférieure ou égale à 0, faux sinon.
 	 */

@@ -4,13 +4,18 @@ import java.awt.Rectangle;
 
 import fr.mode.constantes.Constantes;
 
+/**
+ * <b>La classe ObstacleRect représente un obstacle
+ * de forme rectangulaire</b>
+ *
+ */
 public class ObstacleRect extends Obstacle {
 
 	/** Constructeur de l'objet ObstacleRect, 
 	 * 	un Obstacle de forme rectangulaire.
 	 * 
-	 * @param double Coordonée sur l'axe x 	
-	 * @param double Coordonée sur l'axe y
+	 * @param double Coordonnée sur l'axe x 	
+	 * @param double Coordonnée sur l'axe y
 	 * @param int Largeur de l'obstacle (axe horizontal)
 	 * @param int Longueur de l'obstacle (axe vertical).
 	 */

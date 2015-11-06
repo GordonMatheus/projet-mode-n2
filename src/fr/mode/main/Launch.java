@@ -8,8 +8,15 @@ import fr.mode.constantes.Constantes;
 import fr.mode.model.AngryBirdsModel;
 import fr.mode.view.AngryBirdsView;
 
+/**
+ * <b> La classe Launch représente la classe de lancement de l'application </b>
+ *
+ */
 public class Launch extends JFrame {
 
+	/**
+	 * Construit le lancement de l'application
+	 */
 	public Launch() {
 		
 		this.setTitle("Oiseaux énervés");
@@ -26,7 +33,7 @@ public class Launch extends JFrame {
 		this.getContentPane().add(v);
 		this.pack();
 	}
-	
+
 	public static void main(String[] args) {
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {

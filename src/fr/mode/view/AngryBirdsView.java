@@ -2,6 +2,7 @@ package fr.mode.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,12 +18,29 @@ import fr.mode.constantes.*;
 public class AngryBirdsView extends JPanel implements Observer {
 	
 	/*
+	 * VARIABLES GLOBALES DE LA CLASSE
+	 */
+
+	/**
+	 * Le modèle associé à la vue
+	 */
+	protected AngryBirdsModel m;
+	
+	/**
+	 * Le compteur représentant une certaine position de l'oiseau
+	 */
+	private static int compteur = 0;
+	
+	/*
 	 * CONSTRUCTEUR DE LA CLASSE
 	 */
 	
 	// *********************************************************************
 	// Constructeur permettant d'initialiser la frame
-	
+	/**
+	 * Construit une AngryBirdsView grâce à un AngryBirdsModel
+	 * @param m Un AngryBirdsModel
+	 */
 	public AngryBirdsView (AngryBirdsModel m) {
 	
 		this.m = m;
@@ -36,11 +54,10 @@ public class AngryBirdsView extends JPanel implements Observer {
 	/*
 	 * METHODES DE LA CLASSE
 	 */
-	
-	// *********************************************************************
-	// La methode qui sera appelee a chaque repaint pour mettre a jour
-	// notre fenetre
-	
+
+	/**
+	 * Paint la scène dans le JPanel
+	 */
 	public void paintComponent(Graphics g) {
 
 		// *********************************************************************
@@ -72,18 +89,27 @@ public class AngryBirdsView extends JPanel implements Observer {
 		// *********************************************************************
 		// Dessin du bec
 		
-		int [] x = { (int)AngryBirdsModel.PlayerPos[0]+  Constantes.DIAMETRE/2 , (int)AngryBirdsModel.PlayerPos[0]+  Constantes.DIAMETRE/2 , (int)AngryBirdsModel.PlayerPos[0]+Constantes.DIAMETRE-20 };
-		int [] y = { (int)AngryBirdsModel.PlayerPos[1]+8 , (int)AngryBirdsModel.PlayerPos[1]+22 , (int)AngryBirdsModel.PlayerPos[1]+Constantes.DIAMETRE/4};
-		
+		List<Double> angles = m.getListeAngle(m.getTrajectX(), m.getTrajectY());
+		System.out.println(angles);
 		g.setColor(new Color(0, 0, 0));
+		
+		int [] x = new int[3];
+		int [] y = new int[3];
+		
+		x[0] = (int) (AngryBirdsModel.PlayerPos[0] + 30 + 15 * Math.cos(angles.get(compteur) - 30));
+		x[1] = (int) (AngryBirdsModel.PlayerPos[0] + 30 + ((2 * 15 * Math.cos(angles.get(compteur)))));
+		x[2] = (int) (AngryBirdsModel.PlayerPos[0] + 30 + 15 * Math.cos(angles.get(compteur) + 30));
+		y[0] = (int) (AngryBirdsModel.PlayerPos[1] + 30 + 15 * Math.sin(angles.get(compteur) - 30));
+		y[1] = (int) (AngryBirdsModel.PlayerPos[1] + 30 +((2 * 15 * Math.sin(angles.get(compteur)))));
+		y[2] = (int) (AngryBirdsModel.PlayerPos[1] + 30 + 15 * Math.sin(angles.get(compteur) + 30));
 		g.fillPolygon(x, y, 3);
-	
+		
+		compteur++;
 		
 		// *********************************************************************
 		// Dessin des obstacles
 		
 		g.setColor(new Color(0, 0, 255));
-
 	
 		for (Obstacle o : AngryBirdsModel.listeObstacles){
 			if(o instanceof ObstacleRond)
@@ -98,16 +124,10 @@ public class AngryBirdsView extends JPanel implements Observer {
 	 * METHODES IMPLEMENTEES DE L'INTERFACE
 	 */
 	
-	// *********************************************************************
-	// Implementation des methodes de l'interface
-	
+	/**
+	 * 	Met à jour les objets observés
+	 */
 	public void update(Observable arg0, Object arg1) {
 		repaint();
 	}
-	
-	/*
-	 * VARIABLES GLOBALES DE LA CLASSE
-	 */
-
-	protected AngryBirdsModel m;
 }
