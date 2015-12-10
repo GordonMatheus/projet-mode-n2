@@ -2,16 +2,20 @@ package fr.mode.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.io.File;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import fr.mode.model.AngryBirdsModel;
 import fr.mode.model.Obstacle;
 import fr.mode.model.ObstacleRect;
 import fr.mode.model.ObstacleRond;
-import fr.mode.constantes.*;
 
 @SuppressWarnings("serial")
 public class AngryBirdsView extends JPanel implements Observer {
@@ -61,7 +65,8 @@ public class AngryBirdsView extends JPanel implements Observer {
 
 		// *********************************************************************
 		// On d�finit un rectangle blanc en fond
-
+		int cpt = 0;
+		
 		g.setColor(new Color(255, 255, 255));
 		g.fillRect(0, 0, getSize().width, getSize().height);
 
@@ -78,7 +83,7 @@ public class AngryBirdsView extends JPanel implements Observer {
 		// *********************************************************************
 		// On dessine notre objet
 
-		g.setColor(m.getColorBird());
+		/*g.setColor(m.getColorBird());
 
 		g.fillOval((int)AngryBirdsModel.PlayerPos[0], (int)AngryBirdsModel.PlayerPos[1], Constantes.DIAMETRE/2,  Constantes.DIAMETRE/2);
 		g.setColor(new Color(0, 0, 0));
@@ -92,8 +97,24 @@ public class AngryBirdsView extends JPanel implements Observer {
 
 		g.setColor(new Color(0, 0, 0));
 		g.fillPolygon(x, y, 3);
-
-
+		 */
+		Image img = null;
+		Image img2 = null;
+		try{
+			img = ImageIO.read(new File("ressources/oiseau_vener.png"));
+			img2 = ImageIO.read(new File("ressources/oiseau_vener_collision.png"));
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		
+		List<Double> angles = m.getListeAngles(m.getX(), m.getY());
+		g.drawImage(img, (int) AngryBirdsModel.PlayerPos[0], (int) AngryBirdsModel.PlayerPos[1], this);
+		
+		/*Graphics2D test = (Graphics2D)g;
+		test.rotate(angles.get(cpt));
+		*/
+		
+		
 		// *********************************************************************
 		// Dessin des obstacles
 
@@ -107,6 +128,7 @@ public class AngryBirdsView extends JPanel implements Observer {
 				g.fillRect((int)o.getObstaclePosX(),(int)o.getObstaclePosY(), o.getDimensionsHeight(), o.getDimensionsLenght());
 
 		}
+		cpt++;
 	}
 
 	/*

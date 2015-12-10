@@ -215,4 +215,24 @@ public class AngryBirdsModel extends Observable {
 	public Color getColorBird(){
 		return coloBird;
 	}
+	
+	public List<Integer> getX(){return this.trajectoryX;}
+	public List<Integer> getY(){return this.trajectoryY;}
+	
+	public List<Double> getListeAngles(List<Integer> X, List<Integer> Y){
+		List<Double> angles = new ArrayList<Double>();
+		for(int i = 0; i < X.size() - 1; i++){
+			double dist1 = distanceEntreDeuxPoints(X.get(i), Y.get(i), X.get(i+1), Y.get(i+1));
+			double dist2 = distanceEntreDeuxPoints(X.get(i), Y.get(i), X.get(i), Y.get(i+1));
+			double angle = Math.acos(dist2/dist1);
+			angles.add(angle);
+		}
+		System.out.println(angles.size());
+		return angles;
+	}
+	
+	
+	public double distanceEntreDeuxPoints(int x1, int y1, int x2, int y2){
+		return Math.pow((Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2)), 0.5);
+	}
 }
