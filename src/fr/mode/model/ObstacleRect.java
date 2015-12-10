@@ -5,17 +5,17 @@ import java.awt.Rectangle;
 import fr.mode.constantes.Constantes;
 
 /**
- * <b>La classe ObstacleRect représente un obstacle
+ * <b>La classe ObstacleRect represente un obstacle
  * de forme rectangulaire</b>
  *
  */
 public class ObstacleRect extends Obstacle {
 
-	/** Constructeur de l'objet ObstacleRect, 
+	/** Constructeur de l'objet ObstacleRect,
 	 * 	un Obstacle de forme rectangulaire.
-	 * 
-	 * @param double Coordonnée sur l'axe x 	
-	 * @param double Coordonnée sur l'axe y
+	 *
+	 * @param double Coordonnee sur l'axe x
+	 * @param double Coordonnee sur l'axe y
 	 * @param int Largeur de l'obstacle (axe horizontal)
 	 * @param int Longueur de l'obstacle (axe vertical).
 	 */
@@ -26,9 +26,9 @@ public class ObstacleRect extends Obstacle {
 		this.ObstaclePos[1] = pos1;
 	}
 
-	/** 
-	 * Vérifie si deux rectangles se touchent
-	 * 
+	/**
+	 * Verifie si deux rectangles se touchent
+	 *
 	 * @return s'il y a collision entre l'oiseau et un obstacle.
 	 */
 	boolean collision() {

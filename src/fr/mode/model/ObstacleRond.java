@@ -6,16 +6,16 @@ import java.awt.geom.Rectangle2D;
 import fr.mode.constantes.Constantes;
 
 /**
- * <b>La classe ObstacleRond représente un obstacle de forme circulaire</b>
+ * <b>La classe ObstacleRond represente un obstacle de forme circulaire</b>
  */
 public class ObstacleRond extends Obstacle {
 
-	/** Constructeur de l'objet ObstacleRond, 
+	/** Constructeur de l'objet ObstacleRond,
 	 * 	un Obstacle de forme ronde.
-	 * 
-	 * @param double Coordonnée sur l'axe x 	
-	 * @param double Coordonnée sur l'axe y
-	 * @param int Diamètre du rond
+	 *
+	 * @param double Coordonnee sur l'axe x
+	 * @param double Coordonnee sur l'axe y
+	 * @param int Diametre du rond
 	 */
 	public ObstacleRond(double pos0, double pos1, int diametre) {
 		this.dimensions[0] = diametre;
@@ -24,12 +24,12 @@ public class ObstacleRond extends Obstacle {
 		this.ObstaclePos[1] = pos1;
 	}
 
-	/** 
-	 * Calcule la distance entre l'obstacle rond et l'oiseau pour 
-	 * déterminer s'ils entrent en collision à partir de la distance
-	 * entre les deux et le diamètre de l'oiseau et de l'obstacle.
-	 * 
-	 * @return boolean Vrai si la distance entre l'obstacle et l'oiseau est inférieure ou égale à 0, faux sinon.
+	/**
+	 * Calcule la distance entre l'obstacle rond et l'oiseau pour
+	 * determiner s'ils entrent en collision a partir de la distance
+	 * entre les deux et le diametre de l'oiseau et de l'obstacle.
+	 *
+	 * @return boolean Vrai si la distance entre l'obstacle et l'oiseau est infï¿½rieure ou ï¿½gale ï¿½ 0, faux sinon.
 	 */
 	boolean collision() {
 		return ((Math.sqrt(Math.pow(AngryBirdsModel.PlayerPos[0]
