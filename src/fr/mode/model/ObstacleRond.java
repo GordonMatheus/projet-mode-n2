@@ -32,9 +32,6 @@ public class ObstacleRond extends Obstacle {
 	 * @return boolean Vrai si la distance entre l'obstacle et l'oiseau est inf�rieure ou �gale � 0, faux sinon.
 	 */
 	boolean collision() {
-		return ((Math.sqrt(Math.pow(AngryBirdsModel.PlayerPos[0]
-				- ObstaclePos[0], 2.0)
-				+ Math.pow(AngryBirdsModel.PlayerPos[1] - ObstaclePos[1], 2.0))) <= (Constantes.DIAMETRE + dimensions[0]));
-
+		return false; // TEMPO  ( distanceEntreDeuxPoints() < (this.dimensions[0]+ Constantes.DIAMETRE));
 	}
 }

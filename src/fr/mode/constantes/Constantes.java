@@ -11,7 +11,7 @@ public class Constantes {
 	/**
 	 * Le sol de la fenetre
 	 */
-	public static int SOL = Toolkit.getDefaultToolkit().getScreenSize().height;
+	public static int SOL = Toolkit.getDefaultToolkit().getScreenSize().height+60;
 
 	/**
 	 * Le plafond de la fenetre

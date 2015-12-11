@@ -10,8 +10,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import fr.mode.constantes.Constantes;
 import fr.mode.model.AngryBirdsModel;
 import fr.mode.model.Obstacle;
 import fr.mode.model.ObstacleRect;
@@ -44,10 +46,10 @@ public class AngryBirdsView extends JPanel implements Observer {
 
 		this.m = m;
 		m.addObserver(this);
-		AngryBirdsModel.listeObstacles.add(new ObstacleRect( 800, 400, 80, 50));
-		AngryBirdsModel.listeObstacles.add(new ObstacleRect(600, 100, 80, 50));
-		AngryBirdsModel.listeObstacles.add(new ObstacleRect(200, 100, 40, 50));
-		//AngryBirdsModel.listeObstacles.add(new ObstacleRond(1020, 800, 100));
+		AngryBirdsModel.listeObstacles.add(new ObstacleRect( 1200, 200, 80, 50));
+		AngryBirdsModel.listeObstacles.add(new ObstacleRect(600, 800, 80, 50));
+		AngryBirdsModel.listeObstacles.add(new ObstacleRect(1400, 100, 40, 50));
+		AngryBirdsModel.listeObstacles.add(new ObstacleRond(900, 400, 150));
 	}
 
 	/*
@@ -64,11 +66,20 @@ public class AngryBirdsView extends JPanel implements Observer {
 	public void paintComponent(Graphics g) {
 
 		// *********************************************************************
-		// On d�finit un rectangle blanc en fond
+		// Affichage du fond et du lance-pierre
 		int cpt = 0;
 		
 		g.setColor(new Color(255, 255, 255));
-		g.fillRect(0, 0, getSize().width, getSize().height);
+		g.drawImage(new ImageIcon("ressources/AgBirdBACK1.jpg").getImage(),0 ,0 , Constantes.BORD_DROIT,Constantes.SOL, this );
+		g.drawImage(new ImageIcon("ressources/lancePierre.png").getImage(),0 , 1000 ,120,220, this );
+		g.setColor(new Color(0, 0, 5));
+		g.fillRect(0, 950, Constantes.BORD_DROIT, 60);  // A CHANGER !!
+		
+		
+		
+		
+		
+		//
 
 		// *********************************************************************
 		// On dessine la trajectoire
@@ -118,7 +129,7 @@ public class AngryBirdsView extends JPanel implements Observer {
 		// *********************************************************************
 		// Dessin des obstacles
 
-		g.setColor(new Color(0, 0, 255));
+		g.setColor(new Color(21, 96, 189));
 
 
 		for (Obstacle o : AngryBirdsModel.listeObstacles){
