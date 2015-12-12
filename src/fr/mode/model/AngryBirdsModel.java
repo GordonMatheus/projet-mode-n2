@@ -1,12 +1,16 @@
 package fr.mode.model;
 
 import java.awt.Color;
+import java.awt.Image;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.imageio.ImageIO;
 
 import fr.mode.constantes.Constantes;
 import fr.mode.view.AngryBirdsView;
@@ -67,6 +71,20 @@ public class AngryBirdsModel extends Observable {
 
 	static Color coloBird;
 
+	/**
+	 * Image de l'oiseau
+	 */
+
+	static Image img = null;
+
+	/**
+	 * Etat de l'oiseau
+	 */
+
+	/* 0 - Normal ; 1 - Collision */
+
+	public static int etat;
+
 	 /*
 	 * CONSTRUCTEUR DE LA CLASSE
 	 */
@@ -82,6 +100,13 @@ public class AngryBirdsModel extends Observable {
 	public AngryBirdsModel() {
 
 		coloBird = Color.yellow;
+
+		try {
+			etat = 0;
+			img = ImageIO.read(new File("ressources/oiseau_vener.png"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		// *********************************************************************
 		// Initialiser la position de d�part
@@ -136,7 +161,13 @@ public class AngryBirdsModel extends Observable {
 						e.printStackTrace();
 					}
 					cpt++;
-					coloBird = Color.yellow;
+					//coloBird = Color.yellow;
+					try {
+						etat = 0;
+						img = ImageIO.read(new File("ressources/oiseau_vener.png"));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 
 					// timer.schedule(this, 200);
 					PlayerPos[0] = 5 + r.nextInt(15);
@@ -195,8 +226,14 @@ public class AngryBirdsModel extends Observable {
 
 		for (Obstacle i : listeObstacles) {
 			if (i.collision()){
-				System.out.println("obstacle");
-				coloBird = Color.red;
+				//System.out.println("obstacle");
+				//coloBird = Color.red;
+				try {
+					etat = 1;
+					img = ImageIO.read(new File("ressources/oiseau_vener_collision.png"));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				setChanged();
 				notifyObservers();
 				return false;}
@@ -215,23 +252,36 @@ public class AngryBirdsModel extends Observable {
 	public Color getColorBird(){
 		return coloBird;
 	}
-	
+
+	/**
+	 * Retourne l'image de l'oiseau
+	 *
+	 * @return l'image de l'oiseau
+	 */
+	public Image getImage() {
+		return this.img;
+	}
+
 	public List<Integer> getX(){return this.trajectoryX;}
 	public List<Integer> getY(){return this.trajectoryY;}
-	
+
 	public List<Double> getListeAngles(List<Integer> X, List<Integer> Y){
+
 		List<Double> angles = new ArrayList<Double>();
+
 		for(int i = 0; i < X.size() - 1; i++){
+
 			double dist1 = distanceEntreDeuxPoints(X.get(i), Y.get(i), X.get(i+1), Y.get(i+1));
 			double dist2 = distanceEntreDeuxPoints(X.get(i), Y.get(i), X.get(i), Y.get(i+1));
 			double angle = Math.acos(dist2/dist1);
+
 			angles.add(angle);
 		}
-		System.out.println(angles.size());
+		//System.out.println(angles.size());
 		return angles;
 	}
-	
-	
+
+
 	public double distanceEntreDeuxPoints(int x1, int y1, int x2, int y2){
 		return Math.pow((Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2)), 0.5);
 	}

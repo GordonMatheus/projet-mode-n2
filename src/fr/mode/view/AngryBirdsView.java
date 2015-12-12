@@ -68,17 +68,30 @@ public class AngryBirdsView extends JPanel implements Observer {
 		// *********************************************************************
 		// Affichage du fond et du lance-pierre
 		int cpt = 0;
-		
+
 		g.setColor(new Color(255, 255, 255));
-		g.drawImage(new ImageIcon("ressources/AgBirdBACK1.jpg").getImage(),0 ,0 , Constantes.BORD_DROIT,Constantes.SOL, this );
-		g.drawImage(new ImageIcon("ressources/lancePierre.png").getImage(),0 , 1000 ,120,220, this );
+		g.fillRect(0 ,0 , Constantes.BORD_DROIT,Constantes.SOL);
+		/*Image img_Fond = null;
+		try {
+			img_Fond = ImageIO.read(new File("ressources/Fond.jpg"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Image img_LancePierre = null;
+		try {
+			img_LancePierre = ImageIO.read(new File("ressources/lancePierre.png"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		g.drawImage(img_Fond,0 ,0 , Constantes.BORD_DROIT,Constantes.SOL, this );
+		g.drawImage(img_LancePierre,0 , 1000 ,120,220, this );*/
 		g.setColor(new Color(0, 0, 5));
 		g.fillRect(0, 950, Constantes.BORD_DROIT, 60);  // A CHANGER !!
-		
-		
-		
-		
-		
+
+
+
+
+
 		//
 
 		// *********************************************************************
@@ -109,23 +122,34 @@ public class AngryBirdsView extends JPanel implements Observer {
 		g.setColor(new Color(0, 0, 0));
 		g.fillPolygon(x, y, 3);
 		 */
+
 		Image img = null;
-		Image img2 = null;
-		try{
-			img = ImageIO.read(new File("ressources/oiseau_vener.png"));
-			img2 = ImageIO.read(new File("ressources/oiseau_vener_collision.png"));
-		}catch(Exception e){
-			System.out.println(e.getMessage());
+		String chemin_image;
+
+		if(AngryBirdsModel.etat == 0)
+			chemin_image = "ressources/oiseau_vener.png";
+		else {
+			chemin_image = "ressources/oiseau_vener_collision.png";
 		}
-		
+
+		try{
+			img = ImageIO.read(new File(chemin_image));
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
 		List<Double> angles = m.getListeAngles(m.getX(), m.getY());
-		g.drawImage(img, (int) AngryBirdsModel.PlayerPos[0], (int) AngryBirdsModel.PlayerPos[1], this);
-		
-		/*Graphics2D test = (Graphics2D)g;
-		test.rotate(angles.get(cpt));
-		*/
-		
-		
+
+		Graphics2D test = (Graphics2D) this.getGraphics();
+
+		test.translate( (int) (AngryBirdsModel.PlayerPos[0]+img.getWidth(null)/2) , (int) (AngryBirdsModel.PlayerPos[1]+img.getHeight(null)/2));
+		test.rotate(Math.toDegrees(angles.get(cpt)));
+		test.drawImage(img, 0, 0, this);
+		test.rotate(Math.toDegrees(angles.get(-cpt)));
+		test.translate( -(int) (AngryBirdsModel.PlayerPos[0]+img.getWidth(null)/2) , -(int) (AngryBirdsModel.PlayerPos[1]+img.getHeight(null)/2));
+
+		cpt++;
+
 		// *********************************************************************
 		// Dessin des obstacles
 
@@ -139,7 +163,6 @@ public class AngryBirdsView extends JPanel implements Observer {
 				g.fillRect((int)o.getObstaclePosX(),(int)o.getObstaclePosY(), o.getDimensionsHeight(), o.getDimensionsLenght());
 
 		}
-		cpt++;
 	}
 
 	/*
