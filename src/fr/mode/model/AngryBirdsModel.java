@@ -40,6 +40,29 @@ public class AngryBirdsModel extends Observable {
 	 */
 	public static double PlayerPos[] = new double[2];
 
+	public static double[] getPlayerPos() {
+		return PlayerPos;
+	}
+
+	public void setPlayerPos(double[] playerPos) {
+		PlayerPos = playerPos;
+
+		setChanged();
+		notifyObservers();
+	}
+
+	public static double[] getPlayerSpeed() {
+		return PlayerSpeed;
+	}
+
+	public void setPlayerSpeed(double[] playerSpeed) {
+		PlayerSpeed = playerSpeed;
+
+		setChanged();
+		notifyObservers();
+	}
+
+
 	/**
 	 *  Tableau de 2 cases ( = x,y ) pour la vitesse du joueur
 	 */

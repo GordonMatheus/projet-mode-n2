@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.List;
 import java.util.Observable;
@@ -12,6 +14,7 @@ import java.util.Observer;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.event.MouseInputListener;
 
 import fr.mode.constantes.Constantes;
 import fr.mode.model.AngryBirdsModel;
@@ -19,8 +22,8 @@ import fr.mode.model.Obstacle;
 import fr.mode.model.ObstacleRect;
 import fr.mode.model.ObstacleRond;
 
-@SuppressWarnings("serial")
-public class AngryBirdsView extends JPanel implements Observer {
+@SuppressWarnings("serial") 
+public class AngryBirdsView extends JPanel implements Observer , MouseListener , MouseInputListener{
 
 	/*
 	 * VARIABLES GLOBALES DE LA CLASSE
@@ -31,6 +34,8 @@ public class AngryBirdsView extends JPanel implements Observer {
 	 */
 	protected AngryBirdsModel m;
 
+	
+	boolean press = false;
 	/*
 	 * CONSTRUCTEUR DE LA CLASSE
 	 */
@@ -177,5 +182,47 @@ public class AngryBirdsView extends JPanel implements Observer {
 	 */
 	public void update(Observable arg0, Object arg1) {
 		repaint();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		press = true;
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		m.setPlayerPos(new double []{arg0.getX(),arg0.getY()});
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
