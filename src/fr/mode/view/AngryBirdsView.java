@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -71,59 +72,72 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 	 * Paint la scene dans le JPanel
 	 */
 	public void paintComponent(Graphics g) {
-
-		// *********************************************************************
-		// Affichage du fond et du lance-pierre
-
+		System.out.println("paint");
+		Graphics2D g2d = (Graphics2D) g;
+		String chemin_image = "ressources/oiseau_vener.png";
+		Image img = null;
 		g.setColor(new Color(255, 255, 255));
 		g.fillRect(0, 0, Constantes.BORD_DROIT, Constantes.SOL);
-		g.setColor(new Color(0, 0, 5));
-		g.fillRect(0, Constantes.SOL, Constantes.BORD_DROIT, 60); // A CHANGER
-																	// !!
+		if (!Constantes.estLance) {
+			System.out.println("rentrer");
+			try {
+				AffineTransform rotation = new AffineTransform();
+				rotation.translate((double) m.PlayerPos[0],
+						(double) m.PlayerPos[1]);
+				img = ImageIO.read(new File(chemin_image));
+				g2d.drawImage(img, rotation, null);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
 
-		//
+			// *********************************************************************
+			// Affichage du fond et du lance-pierre
 
-		// *********************************************************************
-		// On dessine la trajectoire
 
-		g.setColor(new Color(0, 0, 0));
-		int size = AngryBirdsModel.trajectoryX.size();
-		for (int i = 0; i < size; i++) {
-			g.fillRect(AngryBirdsModel.trajectoryX.get(i) + 15,
-					AngryBirdsModel.trajectoryY.get(i) + 15, 5, 5);
+			g.setColor(new Color(0, 0, 5));
+			g.fillRect(0, Constantes.SOL, Constantes.BORD_DROIT, 60); // A
+																		// CHANGER
+																		// !!
 
+			//
+
+			// *********************************************************************
+			// On dessine la trajectoire
+
+			g.setColor(new Color(0, 0, 0));
+			int size = AngryBirdsModel.trajectoryX.size();
+			for (int i = 0; i < size; i++) {
+				g.fillRect(AngryBirdsModel.trajectoryX.get(i) + 15,
+						AngryBirdsModel.trajectoryY.get(i) + 15, 5, 5);
+
+			}
+
+			if (AngryBirdsModel.etat == 0)
+				chemin_image = "ressources/oiseau_vener.png";
+			else {
+				chemin_image = "ressources/oiseau_vener_collision.png";
+			}
+
+			try {
+				img = ImageIO.read(new File(chemin_image));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			double angle = m.getAngle(m.getX().get(m.getCptAngle()), m.getY()
+					.get(m.getCptAngle()), m.getX().get(m.getCptAngle() + 1), m
+					.getY().get(m.getCptAngle() + 1),
+					m.getX().get(m.getCptAngle()),
+					m.getY().get(m.getCptAngle() + 1));
+
+			AffineTransform rotation = new AffineTransform();
+			rotation.translate((double) m.PlayerPos[0], (double) m.PlayerPos[1]);
+			rotation.rotate(angle, img.getWidth(null) / 2,
+					img.getHeight(null) / 2);
+			g2d.drawImage(img, rotation, null);
 		}
-
-
-
-		Image img = null;
-		String chemin_image;
-
-		if (AngryBirdsModel.etat == 0)
-			chemin_image = "ressources/oiseau_vener.png";
-		else {
-			chemin_image = "ressources/oiseau_vener_collision.png";
-		}
-
-		try {
-			img = ImageIO.read(new File(chemin_image));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		double angle = m.getAngle(m.getX().get(m.getCptAngle()),
-				m.getY().get(m.getCptAngle()), m.getX()
-						.get(m.getCptAngle() + 1),
-				m.getY().get(m.getCptAngle() + 1), m.getX()
-						.get(m.getCptAngle()), m.getY()
-						.get(m.getCptAngle() + 1));
-
-		Graphics2D g2d = (Graphics2D) g;
-
-		AffineTransform rotation = new AffineTransform();
-		rotation.translate((double) m.PlayerPos[0], (double) m.PlayerPos[1]);
-		rotation.rotate(angle, img.getWidth(null) / 2, img.getHeight(null) / 2);
-		g2d.drawImage(img, rotation, null);
 
 		if (m.getCptAngle() < m.getX().size() - 2)
 			m.cptAngleIncr();
@@ -202,4 +216,5 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 		// TODO Auto-generated method stub
 
 	}
+
 }
