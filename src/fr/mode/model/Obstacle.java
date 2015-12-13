@@ -76,7 +76,7 @@ public abstract class Obstacle {
 	 */
 	abstract boolean collision();
 
-	public void mouvemebtObstacle() {
+	public void mouvementObstacle() {
 		this.progressMvt += (this.mvtVersA ? -1 : 1);
 
 		if (this.progressMvt > progressMvtMax)

@@ -1,0 +1,64 @@
+		// *********************************************************************
+		// On dessine notre objet
+
+		/*
+		 * g.setColor(m.getColorBird());
+		 * 
+		 * g.fillOval((int)AngryBirdsModel.PlayerPos[0],
+		 * (int)AngryBirdsModel.PlayerPos[1], Constantes.DIAMETRE/2,
+		 * Constantes.DIAMETRE/2); g.setColor(new Color(0, 0, 0));
+		 * g.drawOval((int)AngryBirdsModel.PlayerPos[0], (int)
+		 * AngryBirdsModel.PlayerPos[1], Constantes.DIAMETRE/2,
+		 * Constantes.DIAMETRE/2);
+		 * 
+		 * //
+		 * *********************************************************************
+		 * // Dessin du bec
+		 * 
+		 * int [] x = { (int)AngryBirdsModel.PlayerPos[0]+ Constantes.DIAMETRE/2
+		 * , (int)AngryBirdsModel.PlayerPos[0]+ Constantes.DIAMETRE/2 ,
+		 * (int)AngryBirdsModel.PlayerPos[0]+Constantes.DIAMETRE-20 }; int [] y
+		 * = { (int)AngryBirdsModel.PlayerPos[1]+8 ,
+		 * (int)AngryBirdsModel.PlayerPos[1]+22 ,
+		 * (int)AngryBirdsModel.PlayerPos[1]+Constantes.DIAMETRE/4};
+		 * 
+		 * g.setColor(new Color(0, 0, 0)); g.fillPolygon(x, y, 3);
+		 */
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 		/*
+		 * Image img_Fond = null; try { img_Fond = ImageIO.read(new
+		 * File("ressources/Fond.jpg")); } catch (Exception e) {
+		 * e.printStackTrace(); } Image img_LancePierre = null; try {
+		 * img_LancePierre = ImageIO.read(new
+		 * File("ressources/lancePierre.png")); } catch (Exception e) {
+		 * e.printStackTrace(); } g.drawImage(img_Fond,0 ,0 ,
+		 * Constantes.BORD_DROIT,Constantes.SOL, this );
+		 * g.drawImage(img_LancePierre,0 , 1000 ,120,220, this );
+		 */
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		 
+		/*
+		 * test.translate( (int)
+		 * (AngryBirdsModel.PlayerPos[0]+img.getWidth(null)/2) , (int)
+		 * (AngryBirdsModel.PlayerPos[1]+img.getHeight(null)/2));
+		 * test.rotate(Math.toDegrees(angles.get(cpt))); test.drawImage(img, 0,
+		 * 0, this); test.rotate(Math.toDegrees(angles.get(-cpt)));
+		 * test.translate( -(int)
+		 * (AngryBirdsModel.PlayerPos[0]+img.getWidth(null)/2) , -(int)
+		 * (AngryBirdsModel.PlayerPos[1]+img.getHeight(null)/2));
+		 */

@@ -8,6 +8,9 @@ import java.awt.Toolkit;
  */
 public class Constantes {
 
+	public static boolean estLance =false;
+	
+	
 	/**
 	 * Le sol de la fenetre
 	 */

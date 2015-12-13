@@ -16,7 +16,8 @@ import fr.mode.constantes.Constantes;
 import fr.mode.view.AngryBirdsView;
 
 /**
- * <b>La classe AngryBirdsModel repr�sente le moteur physique de l'application</b>
+ * <b>La classe AngryBirdsModel repr�sente le moteur physique de
+ * l'application</b>
  *
  */
 public class AngryBirdsModel extends Observable {
@@ -35,37 +36,18 @@ public class AngryBirdsModel extends Observable {
 	 */
 	public int cpt = 0;
 
-	public int cpt_angle;
 	/**
-	 *  Tableau de 2 cases ( = x,y ) pour la position du joueur
+	 * Compteur interne au modèle servant à calculer l'angle du bec en fonction du point de la trajectoire sur lequel l'oiseau est
+	 */
+	public int cpt_angle;
+
+	/**
+	 * Tableau de 2 cases ( = x,y ) pour la position du joueur
 	 */
 	public static double PlayerPos[] = new double[2];
 
-	public static double[] getPlayerPos() {
-		return PlayerPos;
-	}
-
-	public void setPlayerPos(double[] playerPos) {
-		PlayerPos = playerPos;
-
-		setChanged();
-		notifyObservers();
-	}
-
-	public static double[] getPlayerSpeed() {
-		return PlayerSpeed;
-	}
-
-	public void setPlayerSpeed(double[] playerSpeed) {
-		PlayerSpeed = playerSpeed;
-
-		setChanged();
-		notifyObservers();
-	}
-
-
 	/**
-	 *  Tableau de 2 cases ( = x,y ) pour la vitesse du joueur
+	 * Tableau de 2 cases ( = x,y ) pour la vitesse du joueur
 	 */
 	public static double PlayerSpeed[] = new double[2];
 
@@ -80,20 +62,14 @@ public class AngryBirdsModel extends Observable {
 	public static List<Integer> trajectoryY = new ArrayList<Integer>();
 
 	/**
-	 *  Liste des obstacles pr�sents
+	 * Liste des obstacles pr�sents
 	 */
 	public static ArrayList<Obstacle> listeObstacles = new ArrayList<Obstacle>();
 
 	/**
-	 *  Le Timer de l'animation
+	 * Le Timer de l'animation
 	 */
 	public static Timer timer;
-
-	/**
-	 * La couleur de l'oiseau
-	 */
-
-	static Color coloBird;
 
 	/**
 	 * Image de l'oiseau
@@ -109,7 +85,7 @@ public class AngryBirdsModel extends Observable {
 
 	public static int etat;
 
-	 /*
+	/*
 	 * CONSTRUCTEUR DE LA CLASSE
 	 */
 
@@ -123,11 +99,9 @@ public class AngryBirdsModel extends Observable {
 	 */
 	public AngryBirdsModel() {
 
-		coloBird = Color.yellow;
-
+		trame();
 		try {
 			etat = 0;
-			img = ImageIO.read(new File("ressources/oiseau_vener.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -148,7 +122,7 @@ public class AngryBirdsModel extends Observable {
 		// Initialiser le timer
 		timer = new Timer();
 		timer.schedule(new FrameTask(), 0, 16);
-		
+
 		cpt_angle = 0;
 	}
 
@@ -167,48 +141,49 @@ public class AngryBirdsModel extends Observable {
 	class FrameTask extends TimerTask {
 
 		/**
-		 * Detecte s'il faut lancer la methode trame(),
-		 * gere les tours de boucle et determine
-		 * une position de depart et des forces aleatoires
+		 * Detecte s'il faut lancer la methode trame(), gere les tours de boucle
+		 * et determine une position de depart et des forces aleatoires
 		 */
 		public void run() {
 
 			Random r = new Random();
 
-			if (poursuiteAnim()) {
-				trame();
+			if (Constantes.estLance) {
 
-			} else {
-				if (cpt < 10) {
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					cpt++;
-					//coloBird = Color.yellow;
-					try {
-						etat = 0;
-						img = ImageIO.read(new File("ressources/oiseau_vener.png"));
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+				if (poursuiteAnim()) {
+					trame();
 
-					// timer.schedule(this, 200);
-					PlayerPos[0] = 5 + r.nextInt(15);
-					PlayerPos[1] = 350 + r.nextInt(350);
-					//PlayerSpeed[0] = 5+ r.nextInt(10);
-					PlayerSpeed[1] = -1 * r.nextInt(8);
-
-					trajectoryX.clear();
-					trajectoryY.clear();
-
-					setCptAngle(0);
-					setChanged();
-					notifyObservers();
 				} else {
-					timer.cancel();
+
+					if (cpt < 10) {
+
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						cpt++;
+						etat = 0;
+
+						PlayerPos[0] = 50;
+						PlayerPos[1] = 400;
+
+						PlayerSpeed[1] = -1 * r.nextInt(8);
+
+						Constantes.estLance = false;
+
+						trajectoryX.clear();
+						trajectoryY.clear();
+
+						setCptAngle(0);
+						setChanged();
+						notifyObservers();
+
+					} else {
+						timer.cancel();
+					}
 				}
 			}
 			setChanged();
@@ -217,6 +192,7 @@ public class AngryBirdsModel extends Observable {
 			trajectoryX.add((int) PlayerPos[0]);
 			trajectoryY.add((int) PlayerPos[1]);
 		}
+
 	}
 
 	/*
@@ -224,16 +200,19 @@ public class AngryBirdsModel extends Observable {
 	 */
 
 	// *********************************************************************
-	// M�thode g�rant toute la physique appliqu�e � nos objets dessin�s par le
+	// M�thode g�rant toute la physique appliqu�e � nos objets
+	// dessin�s par le
 	// panel
 
 	/**
 	 * Applique les forces et enregistre la trajectoire de l'oiseau
 	 */
 	public static void trame() {
-		for (Obstacle o : AngryBirdsModel.listeObstacles){
-			o.mouvemebtObstacle();
+
+		for (Obstacle o : AngryBirdsModel.listeObstacles) {
+			o.mouvementObstacle();
 		}
+
 		PlayerSpeed[1] += 0.1;
 
 		PlayerPos[0] += PlayerSpeed[0];
@@ -245,28 +224,32 @@ public class AngryBirdsModel extends Observable {
 	// en cours sont respect�es � chaque frame ou non
 
 	/**
-	 * Verifie si l'oiseau est toujours dans l'ecran et s'il ne touche pas un obstacle
-	 * (change sa couleur dans le cas contraire)
+	 * Verifie si l'oiseau est toujours dans l'ecran et s'il ne touche pas un
+	 * obstacle (change sa couleur dans le cas contraire)
 	 *
 	 * @return si l'animation doit se poursuivre ou non
 	 */
-	public  boolean poursuiteAnim() {
-		// Encore � faire - ce return n'est que provisoire
+	public boolean poursuiteAnim() {
 
 		for (Obstacle i : listeObstacles) {
-			if (i.collision()){
-				//System.out.println("obstacle");
-				//coloBird = Color.red;
+
+			if (i.collision()) {
+
 				try {
 					etat = 1;
-					img = ImageIO.read(new File("ressources/oiseau_vener_collision.png"));
+					img = ImageIO.read(new File(
+							"ressources/oiseau_vener_collision.png"));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+
 				setChanged();
 				notifyObservers();
-				return false;}
+
+				return false;
+			}
 		}
+
 		return (PlayerPos[0] + Constantes.DIAMETRE) > Constantes.BORD_GAUCHE
 				&& (PlayerPos[0] + Constantes.DIAMETRE) < Constantes.BORD_DROIT
 				&& (PlayerPos[1] + Constantes.DIAMETRE) > Constantes.PLAFOND
@@ -274,26 +257,67 @@ public class AngryBirdsModel extends Observable {
 	}
 
 	/**
-	 * Retourne la couleur de l'oiseau
-	 *
-	 * @return la couleur de l'oiseau
+	 * Retourne un tableau d'entier contenant la position (x,y) de l'oiseau
+	 * @return un tableau d'entier contenant la position (x,y) de l'oiseau
 	 */
-	public Color getColorBird(){
-		return coloBird;
+	public static double[] getPlayerPos() {
+		return PlayerPos;
 	}
 
 	/**
-	 * Retourne l'image de l'oiseau
-	 *
-	 * @return l'image de l'oiseau
+	 * Modifie la position de l'oiseau à la position donnée en paramètre
+	 * @param playerPos
 	 */
-	public Image getImage() {
-		return this.img;
+	public void setPlayerPos(double[] playerPos) {
+		PlayerPos = playerPos;
+
+		setChanged();
+		notifyObservers();
 	}
 
-	public List<Integer> getX(){return this.trajectoryX;}
-	public List<Integer> getY(){return this.trajectoryY;}
+	/**
+	 * Retourne un tableau d'entier contenant la vitesse (x,y) de l'oiseau
+	 * @return un tableau d'entier contenant la vitesse (x,y) de l'oiseau
+	 */
+	public static double[] getPlayerSpeed() {
+		return PlayerSpeed;
+	}
 
+	/**
+	 * Modifie la vitesse de l'oiseau à la position donnée en paramètre
+	 * @param playerSpeed
+	 */
+	public void setPlayerSpeed(double[] playerSpeed) {
+		PlayerSpeed = playerSpeed;
+
+		setChanged();
+		notifyObservers();
+	}
+
+	/**
+	 * Retourne une liste d'entier des positions x de l'oiseau
+	 * @return une liste d'entier des positions x de l'oiseau
+	 */
+	public List<Integer> getX() {
+		return this.trajectoryX;
+	}
+
+	/**
+	 * Retourne une liste d'entier des positions y de l'oiseau
+	 * @return une liste d'entier des positions y de l'oiseau
+	 */
+	public List<Integer> getY() {
+		return this.trajectoryY;
+	}
+
+	/**
+	 * Retourne l'angle donné entre le sol et la droite formée par la position actuelle de l'oiseau avec sa position suivante
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return l'angle donné entre le sol et la droite formée par la position actuelle de l'oiseau avec sa position suivante
+	 */
 	public double getAngle(int x1, int y1, int x2, int y2){
 		double angle = Math.atan2((y1 - y2), (x1 -x2));
 		if(x1 < x2 && y1 > y2)
@@ -305,14 +329,38 @@ public class AngryBirdsModel extends Observable {
 		return y1 > y2 ? angle : -angle;
 	}
 
-
-	public double distanceEntreDeuxPoints(int x1, int y1, int x2, int y2){
+	/**
+	 * Retourne la distance entre deux points
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return la distance entre deux points
+	 */
+	public double distanceEntreDeuxPoints(int x1, int y1, int x2, int y2) {
 		return Math.pow((Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2)), 0.5);
 	}
-	
-	public int getCptAngle(){return cpt_angle;}
-	
-	public void cptAngleIncr(){cpt_angle++;}
-	
-	public void setCptAngle(int cpt_angle){this.cpt_angle = cpt_angle;}
+
+	/**
+	 * Retourne la valeur de cpt_angle
+	 * @return la valeur de cpt_angle
+	 */
+	public int getCptAngle() {
+		return cpt_angle;
+	}
+
+	/**
+	 * Incrémente la valeur cpt_angle
+	 */
+	public void cptAngleIncr() {
+		cpt_angle++;
+	}
+
+	/**
+	 * Modifie la variable cpt_angle a la valeur donnée en paramètre
+	 * @param cpt_angle
+	 */
+	public void setCptAngle(int cpt_angle) {
+		this.cpt_angle = cpt_angle;
+	}
 }
