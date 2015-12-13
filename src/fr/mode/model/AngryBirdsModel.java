@@ -294,11 +294,15 @@ public class AngryBirdsModel extends Observable {
 	public List<Integer> getX(){return this.trajectoryX;}
 	public List<Integer> getY(){return this.trajectoryY;}
 
-	public double getAngle(int x1, int y1, int x2, int y2, int x3, int y3){
-		double dist1 = distanceEntreDeuxPoints(x1, y1, x2, y2);
-		double dist2 = distanceEntreDeuxPoints(x1, y1, x3, y3);
-		double angle = Math.asin(dist2/dist1);
-		return angle;
+	public double getAngle(int x1, int y1, int x2, int y2){
+		double angle = Math.atan2((y1 - y2), (x1 -x2));
+		if(x1 < x2 && y1 > y2)
+			return angle + Math.PI;
+		else if(x1 < x2){
+			angle += 135;
+			return angle;
+		}
+		return y1 > y2 ? angle : -angle;
 	}
 
 

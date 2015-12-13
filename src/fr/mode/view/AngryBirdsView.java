@@ -141,7 +141,7 @@ public class AngryBirdsView extends JPanel implements Observer , MouseListener ,
 			e.printStackTrace();
 		}
 
-		double angle = m.getAngle(m.getX().get(m.getCptAngle()), m.getY().get(m.getCptAngle()), m.getX().get(m.getCptAngle() + 1), m.getY().get(m.getCptAngle() + 1), m.getX().get(m.getCptAngle()), m.getY().get(m.getCptAngle() + 1));
+		double angle = m.getAngle(m.getX().get(m.getCptAngle()), m.getY().get(m.getCptAngle()), m.getX().get(m.getCptAngle() + 1), m.getY().get(m.getCptAngle() + 1));
 
 		Graphics2D g2d = (Graphics2D)g;
 		
