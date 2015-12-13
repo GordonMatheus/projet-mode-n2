@@ -35,8 +35,5 @@ public class ObstacleRond extends Obstacle {
 	 */
 	boolean collision() {
 		return ( new Rectangle((int)getObstaclePosX()+getDimensionsHeight()/2,(int)getObstaclePosY()+getDimensionsHeight()/2, getDimensionsHeight(), getDimensionsLenght()).intersects(new Rectangle(((int)AngryBirdsModel.PlayerPos[0])-(Constantes.DIAMETRE/2),((int)AngryBirdsModel.PlayerPos[1])-(Constantes.DIAMETRE/2)+10,Constantes.DIAMETRE,Constantes.DIAMETRE)));
-
-		//System.out.println("Dist 2pts: "+ distanceEntreDeuxPoints((int)this.ObstaclePos[0], (int)this.ObstaclePos[1], (int)AngryBirdsModel.PlayerPos[0], (int)AngryBirdsModel.PlayerPos[0])+" / " + (this.dimensions[0]+ Constantes.DIAMETRE));
-		//return ( distanceEntreDeuxPoints((int)this.ObstaclePos[0], (int)this.ObstaclePos[1], (int)AngryBirdsModel.PlayerPos[0], (int)AngryBirdsModel.PlayerPos[0]) < (this.dimensions[0]+ Constantes.DIAMETRE));
 	}
 }
