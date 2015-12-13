@@ -109,8 +109,8 @@ public class AngryBirdsModel extends Observable {
 		// *********************************************************************
 		// Initialiser la position de d�part
 
-		PlayerPos[0] = 10;
-		PlayerPos[1] = 400;
+		PlayerPos[0] = 150;
+		PlayerPos[1] = 500;
 
 		// **********************************************************************
 		// Initialiser la vitesse de d�part
@@ -167,10 +167,9 @@ public class AngryBirdsModel extends Observable {
 						cpt++;
 						etat = 0;
 
-						PlayerPos[0] = 50;
-						PlayerPos[1] = 400;
+						PlayerPos[0] = 150;
+						PlayerPos[1] = 500;
 
-						PlayerSpeed[1] = -1 * r.nextInt(8);
 
 						Constantes.estLance = false;
 

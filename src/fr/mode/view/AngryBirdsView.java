@@ -29,7 +29,8 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 	/*
 	 * VARIABLES GLOBALES DE LA CLASSE
 	 */
-
+	double posOrigine[] = new double[2];
+	double posCatapulte[] = new double[2];
 	/**
 	 * Le modele associe a la vue
 	 */
@@ -57,9 +58,10 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 
 		this.m = m;
 		m.addObserver(this);
-
+		posCatapulte[0] = m.getPlayerPos()[0];
+		posCatapulte[1] = m.getPlayerPos()[1];
 		this.addMouseListener(this);
-
+		this.addMouseMotionListener(this);
 		AngryBirdsModel.listeObstacles.add(new ObstacleRect(1200, 200, 80, 50));
 		AngryBirdsModel.listeObstacles.add(new ObstacleRect(600, 800, 80, 50));
 		AngryBirdsModel.listeObstacles.add(new ObstacleRect(1400, 100, 40, 50));
@@ -79,8 +81,6 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 	 */
 	public void paintComponent(Graphics g) {
 
-		// System.out.println("paint");
-
 		Graphics2D g2d = (Graphics2D) g;
 		String chemin_image = "ressources/oiseau_vener.png";
 		Image img = null;
@@ -88,12 +88,22 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 		g.setColor(new Color(255, 255, 255));
 		g.fillRect(0, 0, Constantes.BORD_DROIT, Constantes.SOL);
 
+		Image img_LancePierre = null;
+		try {
+			img_LancePierre = ImageIO.read(new File(
+					"ressources/lancePierre.png"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		AffineTransform rotation = new AffineTransform();
+		rotation.translate((double) posCatapulte[0], (double) posCatapulte[1]);
+		g2d.drawImage(img_LancePierre, rotation, null);
+
 		if (!Constantes.estLance) {
 
-			// System.out.println("rentrer");
 			try {
 
-				AffineTransform rotation = new AffineTransform();
+				rotation = new AffineTransform();
 				rotation.translate((double) m.PlayerPos[0],
 						(double) m.PlayerPos[1]);
 				img = ImageIO.read(new File(chemin_image));
@@ -101,7 +111,13 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
+			g.setColor(Color.red);
+			g.drawLine((int) posCatapulte[0] + 20, (int) posCatapulte[1] + 20,
+					(int) m.getPlayerPos()[0] + 20,
+					(int) m.getPlayerPos()[1] + 20);
+			g.drawLine((int) posCatapulte[0] + 40, (int) posCatapulte[1] + 20,
+					(int) m.getPlayerPos()[0] + 20,
+					(int) m.getPlayerPos()[1] + 20);
 		} else {
 
 			// *********************************************************************
@@ -137,7 +153,7 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 					.get(m.getCptAngle()), m.getX().get(m.getCptAngle() + 1), m
 					.getY().get(m.getCptAngle() + 1));
 
-			AffineTransform rotation = new AffineTransform();
+			rotation = new AffineTransform();
 			rotation.translate((double) m.PlayerPos[0], (double) m.PlayerPos[1]);
 			rotation.rotate(angle, img.getWidth(null) / 2,
 					img.getHeight(null) / 2);
@@ -200,19 +216,36 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		press = true;
-		Constantes.estLance = true;
+		posOrigine[0] = e.getX();
+		posOrigine[1] = e.getY();
+		if ((posOrigine[0] > m.PlayerPos[0] && posOrigine[0] < m.PlayerPos[0] + 50)
+				&& (posOrigine[1] > m.PlayerPos[1] && posOrigine[1] < m.PlayerPos[1] + 50)) {
+			press = true;
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		if (press) {
+			Constantes.estLance = true;
+			press = false;
+		}
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		// m.setPlayerPos(new double []{arg0.getX(),arg0.getY()});
+		System.out.println("DRAG");
+		if (press && arg0.getY() > 400 && arg0.getX() < 250) {
+			m.setPlayerPos(new double[] { arg0.getX(), arg0.getY() });
+			System.out
+					.println("var X:" + (posOrigine[0] - m.getPlayerPos()[0]));
+			System.out
+					.println("var Y:" + (posOrigine[1] - m.getPlayerPos()[1]));
+			double varX = (posOrigine[0] - m.getPlayerPos()[0]) / 12;
+			double varY = (posOrigine[1] - m.getPlayerPos()[1]) / 15;
+			double[] tmp = new double[] { varX, varY };
+			m.setPlayerSpeed(tmp);
+		}
 
 	}
 
@@ -221,5 +254,4 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 		// TODO Auto-generated method stub
 
 	}
-
 }
