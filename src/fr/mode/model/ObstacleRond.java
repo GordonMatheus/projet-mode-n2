@@ -22,6 +22,8 @@ public class ObstacleRond extends Obstacle {
 		this.dimensions[1] = diametre;
 		this.ObstaclePos[0] = pos0;
 		this.ObstaclePos[1] = pos1;
+		coordA[0]=pos0;
+		coordA[1]=pos1;
 	}
 
 	/**
@@ -29,9 +31,12 @@ public class ObstacleRond extends Obstacle {
 	 * determiner s'ils entrent en collision a partir de la distance
 	 * entre les deux et le diametre de l'oiseau et de l'obstacle.
 	 *
-	 * @return boolean Vrai si la distance entre l'obstacle et l'oiseau est inf�rieure ou �gale � 0, faux sinon.
+	 * @return s'il y a collision entre l'oiseau et un obstacle.
 	 */
 	boolean collision() {
-		return false; // TEMPO  ( distanceEntreDeuxPoints() < (this.dimensions[0]+ Constantes.DIAMETRE));
+		return ( new Rectangle((int)getObstaclePosX()+getDimensionsHeight()/2,(int)getObstaclePosY()+getDimensionsHeight()/2, getDimensionsHeight(), getDimensionsLenght()).intersects(new Rectangle(((int)AngryBirdsModel.PlayerPos[0])-(Constantes.DIAMETRE/2),((int)AngryBirdsModel.PlayerPos[1])-(Constantes.DIAMETRE/2)+10,Constantes.DIAMETRE,Constantes.DIAMETRE)));
+
+		//System.out.println("Dist 2pts: "+ distanceEntreDeuxPoints((int)this.ObstaclePos[0], (int)this.ObstaclePos[1], (int)AngryBirdsModel.PlayerPos[0], (int)AngryBirdsModel.PlayerPos[0])+" / " + (this.dimensions[0]+ Constantes.DIAMETRE));
+		//return ( distanceEntreDeuxPoints((int)this.ObstaclePos[0], (int)this.ObstaclePos[1], (int)AngryBirdsModel.PlayerPos[0], (int)AngryBirdsModel.PlayerPos[0]) < (this.dimensions[0]+ Constantes.DIAMETRE));
 	}
 }

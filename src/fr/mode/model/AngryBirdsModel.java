@@ -227,7 +227,9 @@ public class AngryBirdsModel extends Observable {
 	 * Applique les forces et enregistre la trajectoire de l'oiseau
 	 */
 	public static void trame() {
-
+		for (Obstacle o : AngryBirdsModel.listeObstacles){
+			o.mouvemebtObstacle();
+		}
 		PlayerSpeed[1] += 0.1;
 
 		PlayerPos[0] += PlayerSpeed[0];

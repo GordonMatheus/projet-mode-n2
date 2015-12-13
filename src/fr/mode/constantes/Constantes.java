@@ -11,7 +11,7 @@ public class Constantes {
 	/**
 	 * Le sol de la fenetre
 	 */
-	public static int SOL = Toolkit.getDefaultToolkit().getScreenSize().height+60;
+	public static int SOL = 1060;
 
 	/**
 	 * Le plafond de la fenetre
@@ -26,12 +26,10 @@ public class Constantes {
 	/**
 	 * Le bord droit de la fenetre
 	 */
-	public static int BORD_DROIT = Toolkit.getDefaultToolkit().getScreenSize().width;
+	public static int BORD_DROIT = 1700;
 
 	/**
 	 *  La constante du diametre de l'oiseau
 	 */
 	public final static int DIAMETRE = 60;
-
-
 }

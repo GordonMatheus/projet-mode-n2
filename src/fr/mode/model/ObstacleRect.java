@@ -24,6 +24,8 @@ public class ObstacleRect extends Obstacle {
 		this.dimensions[1] = lenght;
 		this.ObstaclePos[0] = pos0;
 		this.ObstaclePos[1] = pos1;
+		coordA[0]=pos0;
+		coordA[1]=pos1;
 	}
 
 	/**

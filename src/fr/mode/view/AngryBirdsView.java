@@ -91,7 +91,7 @@ public class AngryBirdsView extends JPanel implements Observer , MouseListener ,
 		g.drawImage(img_Fond,0 ,0 , Constantes.BORD_DROIT,Constantes.SOL, this );
 		g.drawImage(img_LancePierre,0 , 1000 ,120,220, this );*/
 		g.setColor(new Color(0, 0, 5));
-		g.fillRect(0, 950, Constantes.BORD_DROIT, 60);  // A CHANGER !!
+		g.fillRect(0, Constantes.SOL, Constantes.BORD_DROIT, 60);  // A CHANGER !!
 
 
 

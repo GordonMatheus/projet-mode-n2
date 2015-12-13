@@ -19,17 +19,19 @@ public class Launch extends JFrame {
 	 */
 	public Launch() {
 
-		this.setTitle("Oiseaux �nerv�s");
-		this.setPreferredSize(new Dimension(1750,1500));
+		this.setTitle("Oiseaux enerves");
+		this.setPreferredSize(new Dimension(1700,1000));
 		this.setVisible(true);
 
 		setBounds(0, 0, Constantes.BORD_DROIT, Constantes.SOL);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
 
 		AngryBirdsModel m = new AngryBirdsModel();
 		AngryBirdsView v = new AngryBirdsView(m);
 
+		
 		this.getContentPane().add(v);
 		this.pack();
 	}
