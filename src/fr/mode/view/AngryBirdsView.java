@@ -29,7 +29,15 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 	/*
 	 * VARIABLES GLOBALES DE LA CLASSE
 	 */
+
+	/**
+	 * Tableau comprenant les coordonnées de l'origine de la catapulte
+	 */
 	double posOrigine[] = new double[2];
+
+	/**
+	 * Tableau comprenant les coordonnées de la catapulte
+	 */
 	double posCatapulte[] = new double[2];
 	/**
 	 * Le modele associe a la vue
@@ -214,6 +222,9 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 
 	}
 
+	/**
+	 * Action quand le clic gauche de la souris est pressé
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		posOrigine[0] = e.getX();
@@ -224,6 +235,9 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 		}
 	}
 
+	/**
+	 * Action quand le clic gauche de la souris est relâché
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (press) {
@@ -232,6 +246,9 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 		}
 	}
 
+	/**
+	 * Action quand le clic gauche de la souris est maintenu et déplacé
+	 */
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		System.out.println("DRAG");
