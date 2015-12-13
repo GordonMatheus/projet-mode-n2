@@ -6,13 +6,12 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.AffineTransform;
 import java.io.File;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
@@ -72,7 +71,6 @@ public class AngryBirdsView extends JPanel implements Observer , MouseListener ,
 
 		// *********************************************************************
 		// Affichage du fond et du lance-pierre
-		int cpt = 0;
 
 		g.setColor(new Color(255, 255, 255));
 		g.fillRect(0 ,0 , Constantes.BORD_DROIT,Constantes.SOL);
@@ -143,18 +141,24 @@ public class AngryBirdsView extends JPanel implements Observer , MouseListener ,
 			e.printStackTrace();
 		}
 
-		List<Double> angles = m.getListeAngles(m.getX(), m.getY());
+		double angle = m.getAngle(m.getX().get(m.getCptAngle()), m.getY().get(m.getCptAngle()), m.getX().get(m.getCptAngle() + 1), m.getY().get(m.getCptAngle() + 1), m.getX().get(m.getCptAngle()), m.getY().get(m.getCptAngle() + 1));
 
-		Graphics2D test = (Graphics2D) this.getGraphics();
-
-		test.translate( (int) (AngryBirdsModel.PlayerPos[0]+img.getWidth(null)/2) , (int) (AngryBirdsModel.PlayerPos[1]+img.getHeight(null)/2));
+		Graphics2D g2d = (Graphics2D)g;
+		
+		AffineTransform rotation = new AffineTransform();
+		rotation.translate((double) m.PlayerPos[0], (double) m.PlayerPos[1]);
+		rotation.rotate(angle, img.getWidth(null) / 2, img.getHeight(null) / 2);
+		g2d.drawImage(img, rotation, null);
+		
+		/*test.translate( (int) (AngryBirdsModel.PlayerPos[0]+img.getWidth(null)/2) , (int) (AngryBirdsModel.PlayerPos[1]+img.getHeight(null)/2));
 		test.rotate(Math.toDegrees(angles.get(cpt)));
 		test.drawImage(img, 0, 0, this);
 		test.rotate(Math.toDegrees(angles.get(-cpt)));
 		test.translate( -(int) (AngryBirdsModel.PlayerPos[0]+img.getWidth(null)/2) , -(int) (AngryBirdsModel.PlayerPos[1]+img.getHeight(null)/2));
-
-		cpt++;
-
+		*/
+		if(m.getCptAngle() < m.getX().size() - 2) 
+			m.cptAngleIncr();
+		
 		// *********************************************************************
 		// Dessin des obstacles
 

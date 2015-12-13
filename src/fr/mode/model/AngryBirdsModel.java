@@ -35,6 +35,7 @@ public class AngryBirdsModel extends Observable {
 	 */
 	public int cpt = 0;
 
+	public int cpt_angle;
 	/**
 	 *  Tableau de 2 cases ( = x,y ) pour la position du joueur
 	 */
@@ -147,6 +148,8 @@ public class AngryBirdsModel extends Observable {
 		// Initialiser le timer
 		timer = new Timer();
 		timer.schedule(new FrameTask(), 0, 16);
+		
+		cpt_angle = 0;
 	}
 
 	/*
@@ -201,6 +204,7 @@ public class AngryBirdsModel extends Observable {
 					trajectoryX.clear();
 					trajectoryY.clear();
 
+					setCptAngle(0);
 					setChanged();
 					notifyObservers();
 				} else {
@@ -290,24 +294,21 @@ public class AngryBirdsModel extends Observable {
 	public List<Integer> getX(){return this.trajectoryX;}
 	public List<Integer> getY(){return this.trajectoryY;}
 
-	public List<Double> getListeAngles(List<Integer> X, List<Integer> Y){
-
-		List<Double> angles = new ArrayList<Double>();
-
-		for(int i = 0; i < X.size() - 1; i++){
-
-			double dist1 = distanceEntreDeuxPoints(X.get(i), Y.get(i), X.get(i+1), Y.get(i+1));
-			double dist2 = distanceEntreDeuxPoints(X.get(i), Y.get(i), X.get(i), Y.get(i+1));
-			double angle = Math.acos(dist2/dist1);
-
-			angles.add(angle);
-		}
-		//System.out.println(angles.size());
-		return angles;
+	public double getAngle(int x1, int y1, int x2, int y2, int x3, int y3){
+		double dist1 = distanceEntreDeuxPoints(x1, y1, x2, y2);
+		double dist2 = distanceEntreDeuxPoints(x1, y1, x3, y3);
+		double angle = Math.asin(dist2/dist1);
+		return angle;
 	}
 
 
 	public double distanceEntreDeuxPoints(int x1, int y1, int x2, int y2){
 		return Math.pow((Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2)), 0.5);
 	}
+	
+	public int getCptAngle(){return cpt_angle;}
+	
+	public void cptAngleIncr(){cpt_angle++;}
+	
+	public void setCptAngle(int cpt_angle){this.cpt_angle = cpt_angle;}
 }
