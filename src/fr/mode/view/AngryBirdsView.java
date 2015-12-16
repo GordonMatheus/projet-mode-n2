@@ -93,8 +93,13 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 		String chemin_image = "ressources/oiseau_vener.png";
 		Image img = null;
 
-		g.setColor(new Color(255, 255, 255));
+		// fond
+		g.setColor(new Color(130, 234, 246));
 		g.fillRect(0, 0, Constantes.BORD_DROIT, Constantes.SOL);
+		
+		//sol
+		g.setColor(new Color(0, 51, 0));
+		g.fillRect(0, Constantes.SOL-100, Constantes.BORD_DROIT, 200);
 
 		Image img_LancePierre = null;
 		try {
@@ -127,12 +132,6 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 					(int) m.getPlayerPos()[0] + 20,
 					(int) m.getPlayerPos()[1] + 20);
 		} else {
-
-			// *********************************************************************
-			// Affichage du fond et du lance-pierre
-
-			g.setColor(new Color(0, 0, 5));
-			g.fillRect(0, Constantes.SOL, Constantes.BORD_DROIT, 60);
 
 			// *********************************************************************
 			// On dessine la trajectoire
