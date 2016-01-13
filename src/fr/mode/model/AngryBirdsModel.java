@@ -25,6 +25,11 @@ public class AngryBirdsModel extends Observable {
 	/*
 	 * VARIABLES GLOBALES
 	 */
+	
+	/**
+	 * L'instance actuelle de l'oiseau
+	 */
+	public static Oiseau oiseau = new Oiseau();
 
 	/**
 	 * La vue associee au modele
@@ -42,16 +47,6 @@ public class AngryBirdsModel extends Observable {
 	public int cpt_angle;
 
 	/**
-	 * Tableau de 2 cases ( = x,y ) pour la position du joueur
-	 */
-	public static double PlayerPos[] = new double[2];
-
-	/**
-	 * Tableau de 2 cases ( = x,y ) pour la vitesse du joueur
-	 */
-	public static double PlayerSpeed[] = new double[2];
-
-	/**
 	 * Liste des positions en X de l'oiseau
 	 */
 	public static List<Integer> trajectoryX = new ArrayList<Integer>();
@@ -62,9 +57,9 @@ public class AngryBirdsModel extends Observable {
 	public static List<Integer> trajectoryY = new ArrayList<Integer>();
 
 	/**
-	 * Liste des obstacles pr�sents
+	 * Liste des corps présents en jeu, les obstacles ici
 	 */
-	public static ArrayList<Obstacle> listeObstacles = new ArrayList<Obstacle>();
+	public static ArrayList<Corps> listeCorps = new ArrayList<Corps>();
 
 	/**
 	 * Le Timer de l'animation
@@ -109,14 +104,14 @@ public class AngryBirdsModel extends Observable {
 		// *********************************************************************
 		// Initialiser la position de d�part
 
-		PlayerPos[0] = 150;
-		PlayerPos[1] = 500;
-
+		oiseau.corpsPos[0] = 150;
+		oiseau.corpsPos[1] = 500;
+		
 		// **********************************************************************
 		// Initialiser la vitesse de d�part
 
-		PlayerSpeed[0] = 8;
-		PlayerSpeed[1] = -5;
+		oiseau.corpsSpeed[0] = 8;
+		oiseau.corpsSpeed[1] = -5;
 
 		// **********************************************************************
 		// Initialiser le timer
@@ -166,11 +161,9 @@ public class AngryBirdsModel extends Observable {
 
 						cpt++;
 						etat = 0;
-
-						PlayerPos[0] = 150;
-						PlayerPos[1] = 500;
-
-
+						oiseau.corpsPos[0] = 150;
+						oiseau.corpsPos[1] = 500;
+						
 						Constantes.estLance = false;
 
 						trajectoryX.clear();
@@ -188,8 +181,8 @@ public class AngryBirdsModel extends Observable {
 			setChanged();
 			notifyObservers();
 
-			trajectoryX.add((int) PlayerPos[0]);
-			trajectoryY.add((int) PlayerPos[1]);
+			trajectoryX.add((int) oiseau.corpsPos[0]);
+			trajectoryY.add((int) oiseau.corpsPos[1]);
 		}
 
 	}
@@ -208,14 +201,14 @@ public class AngryBirdsModel extends Observable {
 	 */
 	public static void trame() {
 
-		for (Obstacle o : AngryBirdsModel.listeObstacles) {
-			o.mouvementObstacle();
+		for (Corps o : AngryBirdsModel.listeCorps) {
+			o.mouvement();
 		}
 
-		PlayerSpeed[1] += 0.1;
+		oiseau.corpsSpeed[1] += 0.1;//(oiseau.poids/1000);
 
-		PlayerPos[0] += PlayerSpeed[0];
-		PlayerPos[1] += PlayerSpeed[1];
+		oiseau.corpsPos[0] += oiseau.corpsSpeed[0];
+		oiseau.corpsPos[1] += oiseau.corpsSpeed[1];
 	}
 
 	// *********************************************************************
@@ -230,7 +223,8 @@ public class AngryBirdsModel extends Observable {
 	 */
 	public boolean poursuiteAnim() {
 
-		for (Obstacle i : listeObstacles) {
+		for (Corps i : listeCorps) {
+			for(int cp=( listeCorps.indexOf(i)); i< listeCorps.size ;i++)
 
 			if (i.collision()) {
 
@@ -249,10 +243,10 @@ public class AngryBirdsModel extends Observable {
 			}
 		}
 
-		return (PlayerPos[0] + Constantes.DIAMETRE) > Constantes.BORD_GAUCHE
-				&& (PlayerPos[0] + Constantes.DIAMETRE) < Constantes.BORD_DROIT
-				&& (PlayerPos[1] + Constantes.DIAMETRE) > Constantes.PLAFOND
-				&& (PlayerPos[1] + Constantes.DIAMETRE) < Constantes.SOL;
+		return (oiseau.corpsPos[0] + Constantes.DIAMETRE) > Constantes.BORD_GAUCHE
+				&& (oiseau.corpsPos[0] + Constantes.DIAMETRE) < Constantes.BORD_DROIT
+				&& (oiseau.corpsPos[1] + Constantes.DIAMETRE) > Constantes.PLAFOND
+				&& (oiseau.corpsPos[1] + Constantes.DIAMETRE) < Constantes.SOL;
 	}
 
 	/**
@@ -260,15 +254,15 @@ public class AngryBirdsModel extends Observable {
 	 * @return un tableau d'entier contenant la position (x,y) de l'oiseau
 	 */
 	public static double[] getPlayerPos() {
-		return PlayerPos;
+		return oiseau.corpsPos;
 	}
 
 	/**
 	 * Modifie la position de l'oiseau à la position donnée en paramètre
-	 * @param playerPos
+	 * @param oiseau.corpsPos
 	 */
-	public void setPlayerPos(double[] playerPos) {
-		PlayerPos = playerPos;
+	public void setPlayerPos(double[] newPos) {
+		oiseau.corpsPos = newPos;
 
 		setChanged();
 		notifyObservers();
@@ -279,7 +273,7 @@ public class AngryBirdsModel extends Observable {
 	 * @return un tableau d'entier contenant la vitesse (x,y) de l'oiseau
 	 */
 	public static double[] getPlayerSpeed() {
-		return PlayerSpeed;
+		return oiseau.corpsSpeed;
 	}
 
 	/**
@@ -287,7 +281,7 @@ public class AngryBirdsModel extends Observable {
 	 * @param playerSpeed
 	 */
 	public void setPlayerSpeed(double[] playerSpeed) {
-		PlayerSpeed = playerSpeed;
+		oiseau.corpsSpeed = playerSpeed;
 
 		setChanged();
 		notifyObservers();
