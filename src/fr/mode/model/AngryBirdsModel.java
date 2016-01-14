@@ -105,7 +105,7 @@ public class AngryBirdsModel extends Observable {
 		// Initialiser la position de d�part
 
 		oiseau.corpsPos[0] = 150;
-		oiseau.corpsPos[1] = 500;
+		oiseau.corpsPos[1] = 750;
 		
 		// **********************************************************************
 		// Initialiser la vitesse de d�part
@@ -162,7 +162,7 @@ public class AngryBirdsModel extends Observable {
 						cpt++;
 						etat = 0;
 						oiseau.corpsPos[0] = 150;
-						oiseau.corpsPos[1] = 500;
+						oiseau.corpsPos[1] = 750;
 						
 						Constantes.estLance = false;
 
