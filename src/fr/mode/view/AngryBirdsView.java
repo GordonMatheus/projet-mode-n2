@@ -94,8 +94,14 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 		Image img = null;
 
 		// fond
-		g.setColor(new Color(130, 234, 246));
-		g.fillRect(0, 0, Constantes.BORD_DROIT, Constantes.SOL);
+		Image img_fond = null;
+		try {
+			img_fond = ImageIO.read(new File("ressources/Fond_ecran.jpg"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		g2d.drawImage(img_fond, 0, 0, null);
 		
 		//sol
 		g.setColor(new Color(0, 51, 0));
