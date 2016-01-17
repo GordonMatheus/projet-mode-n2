@@ -16,7 +16,6 @@ import fr.mode.constantes.Constantes;
  * </p>
  *
  */
-
 public abstract class Corps {
 	/*--- Variables de la classe ---*/
 
@@ -48,6 +47,9 @@ public abstract class Corps {
 
 	/*--- Méthodes de la classe ---*/
 
+	/**
+	 * Applique les forces en fonction sur tous les obstacles mobiles
+	 */
 	void mouvement() {
 		if (this.getMobile()) {
 			corpsSpeed[1] += 0.1;
@@ -61,6 +63,10 @@ public abstract class Corps {
 		return ( new Rectangle((int)this.getCorpsPosX(),(int)this.getCorpsPosY(), this.getDimensionsHeight(), this.getDimensionsLenght()).intersects(new Rectangle(((int)autreCorps.getCorpsPosX())-(Constantes.DIAMETRE/2),((int)autreCorps.getCorpsPosY())-(Constantes.DIAMETRE/2)+10,Constantes.DIAMETRE,Constantes.DIAMETRE)));
 	}
 
+	/**
+	 * Applique les dégâts causés par un Corps sur un autre objet Corps, mettant à jour ses points de vie ainsi que sa vitesse
+	 * @param autreCorps
+	 */
 	void appliquerCollision(Corps autreCorps){
 		if(this instanceof Obstacle)
 			((Obstacle)this).vie-= this.getCorpsSpeedX()+this.getCorpsSpeedY()+autreCorps.getCorpsSpeedX()+autreCorps.getCorpsSpeedY();
@@ -80,6 +86,10 @@ public abstract class Corps {
 
 	}
 
+	/**
+	 * Retourne le tableau de position de l'objet
+	 * @return le tableau corpsPos
+	 */
 	public double [] getCorpsPos() {
 		return corpsPos;
 	}
@@ -111,6 +121,10 @@ public abstract class Corps {
 		return dimensions[0];
 	}
 
+	/**
+	 * Retourne le tableau des vitesses de l'objet
+	 * @return le tableau corpsSpeed
+	 */
 	public double [] getCorpsSpeed() {
 		return corpsSpeed;
 	}
@@ -142,54 +156,101 @@ public abstract class Corps {
 		return dimensions[1];
 	}
 
+	/**
+	 * Retourne si l'objet est mobile ou non
+	 * @return si l'objet est mobile ou non
+	 */
 	public boolean getMobile() {
 		return mobile;
 	}
 
+	/**
+	 * Retourne le poids de l'objet
+	 * @return le poids de l'objet
+	 */
 	public int getPoids() {
 		return poids;
 	}
 
 
-
-	public void setCorpsPos(double [] pos) {
-		corpsPos[0] = pos[0];
-		corpsPos[1] = pos[1];
+	/**
+	 * Modifie la position horizontale et verticale de l'objet
+	 * @param tabPos
+	 */
+	public void setCorpsPos(double [] tabPos) {
+		corpsPos[0] = tabPos[0];
+		corpsPos[1] = tabPos[1];
 	}
 
-	public void setCorpsPosX(double pos) {
-		corpsPos[0] = pos;
+	/**
+	 * Modifie la position horizontale de l'objet
+	 * @param posX
+	 */
+	public void setCorpsPosX(double posX) {
+		corpsPos[0] = posX;
 	}
 
-	public void setCorpsPosY(double pos) {
-		corpsPos[1] = pos;
+	/**
+	 * Modifie la position verticale de l'objet
+	 * @param posY
+	 */
+	public void setCorpsPosY(double posY) {
+		corpsPos[1] = posY;
 	}
 
-	public void setCorpsSpeed(double [] speed) {
-		corpsSpeed[0] = speed[0];
-		corpsSpeed[1] = speed[1];
+	/**
+	 * Modifie la vitesse horizontale et verticale de l'objet
+	 * @param tabSpeed
+	 */
+	public void setCorpsSpeed(double [] tabSpeed) {
+		corpsSpeed[0] = tabSpeed[0];
+		corpsSpeed[1] = tabSpeed[1];
 	}
 
-	public void setCorpsSpeedX(double speed) {
-		corpsSpeed[0] = speed;
+	/**
+	 * Modifie la vitesse horizontale de l'objet
+	 * @param speedX
+	 */
+	public void setCorpsSpeedX(double speedX) {
+		corpsSpeed[0] = speedX;
 	}
 
-	public void setCorpsSpeedY(double speed) {
-		corpsSpeed[1] = speed;
+	/**
+	 * Modifie la vitesse verticale de l'objet
+	 * @param speedY
+	 */
+	public void setCorpsSpeedY(double speedY) {
+		corpsSpeed[1] = speedY;
 	}
 
-	public void setDimensionsX(int dim) {
-		dimensions[0] = dim;
+	/**
+	 * Modifie la longueur d'un objet
+	 * @param width
+	 */
+	public void setDimensionsX(int width) {
+		dimensions[0] = width;
 	}
 
-	public void setDimensionsY(int dim) {
-		dimensions[1] = dim;
+	/**
+	 * Modifie la hauteur d'un objet
+	 * @param height
+	 */
+	public void setDimensionsY(int height) {
+		dimensions[1] = height;
 	}
 
+	/**
+	 * Modifie la mobilité d'un objet
+	 * @param mobilite
+	 */
 	public void setMobile(boolean mobilite) {
 		mobile = mobilite;
 	}
 
+	/**
+	 * Modifie le poids d'un objet
+	 * @param p
+	 */
 	public void setPoids(int p) {
 		poids = p;
 	}

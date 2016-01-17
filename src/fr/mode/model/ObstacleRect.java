@@ -4,8 +4,14 @@ import java.awt.Rectangle;
 
 import fr.mode.constantes.Constantes;
 
+/**
+ * <b> La classe ObstacleRect représente un Obstacle rectangulaire </b>
+ */
 public class ObstacleRect extends Obstacle {
 
+	/**
+	 * Contruit un ObstacleRect par défaut
+	 */
 	public ObstacleRect() {
 		super();
 		this.setEstRond(false);

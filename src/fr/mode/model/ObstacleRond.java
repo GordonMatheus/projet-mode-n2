@@ -4,8 +4,15 @@ import java.awt.Rectangle;
 
 import fr.mode.constantes.Constantes;
 
+/**
+ * <b> La classe ObstacleRond représente un Obstacle circulaire </b>
+ *
+ */
 public class ObstacleRond extends Obstacle{
 
+	/**
+	 * Construit un ObstacleRond par défaut
+	 */
 	public ObstacleRond(){
 		super();
 		this.setEstRond(true);

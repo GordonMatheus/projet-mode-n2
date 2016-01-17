@@ -205,8 +205,17 @@ public class AngryBirdsModel extends Observable {
 	 */
 	public static void trame() {
 
-		for (Corps o : AngryBirdsModel.listeCorps) {
-			o.mouvement();
+		for (Obstacle o : AngryBirdsModel.listeCorps) {
+			for (int cp = (listeCorps.indexOf(o)); cp < listeCorps.size(); cp++) {
+
+				System.out.println("Obstacle " + o + " : " + o.getCorpsPosX() + "," + o.getCorpsPosY() + " - " + o.getCorpsSpeedX() + "," + o.getCorpsSpeedY());
+
+				if (o.collision()) {
+					if (!o.equals(listeCorps.get(cp)))
+						o.appliquerCollision(listeCorps.get(cp));
+				}
+				o.mouvement();
+			}
 		}
 
 		oiseau.setCorpsSpeedY(oiseau.getCorpsSpeedY()+0.1); // (oiseau.poids/1000);
@@ -228,7 +237,7 @@ public class AngryBirdsModel extends Observable {
 	public boolean poursuiteAnim() {
 
 		for (Obstacle i : listeCorps) {
-			for (int cp = (listeCorps.indexOf(i)); cp < listeCorps.size(); cp++)
+			for (int cp = (listeCorps.indexOf(i)); cp < listeCorps.size(); cp++) {
 
 				if (i.collision()) {
 
@@ -247,7 +256,9 @@ public class AngryBirdsModel extends Observable {
 					notifyObservers();
 
 					return false;
+
 				}
+			}
 		}
 
 		return (oiseau.getCorpsPosX() + Constantes.DIAMETRE) > Constantes.BORD_GAUCHE

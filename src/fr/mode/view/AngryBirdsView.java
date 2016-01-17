@@ -91,7 +91,7 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 		// fond
 		Image img_fond = null;
 		try {
-			img_fond = ImageIO.read(new File("ressources/Fond.jpg"));
+			img_fond = ImageIO.read(new File("ressources/Fond.png"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -250,13 +250,8 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 	 */
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		System.out.println("DRAG");
 		if (press && arg0.getY() > 400 && arg0.getX() < 250) {
 			m.setPlayerPos(new double[] { arg0.getX(), arg0.getY() });
-			System.out
-					.println("var X:" + (posOrigine[0] - m.getPlayerPos()[0]));
-			System.out
-					.println("var Y:" + (posOrigine[1] - m.getPlayerPos()[1]));
 			double varX = (posOrigine[0] - m.getPlayerPos()[0]) / 12;
 			double varY = (posOrigine[1] - m.getPlayerPos()[1]) / 15;
 			double[] tmp = new double[] { varX, varY };
