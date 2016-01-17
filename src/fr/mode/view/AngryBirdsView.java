@@ -19,7 +19,6 @@ import javax.swing.event.MouseInputListener;
 import fr.mode.constantes.Constantes;
 import fr.mode.model.AngryBirdsModel;
 import fr.mode.model.Obstacle;
-import fr.mode.model.ObstacleRect;
 import fr.mode.model.ObstacleRond;
 
 @SuppressWarnings("serial")
@@ -70,10 +69,6 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 		posCatapulte[1] = m.getPlayerPos()[1];
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
-		AngryBirdsModel.listeObstacles.add(new ObstacleRect(1200, 200, 80, 50));
-		AngryBirdsModel.listeObstacles.add(new ObstacleRect(600, 800, 80, 50));
-		AngryBirdsModel.listeObstacles.add(new ObstacleRect(1400, 100, 40, 50));
-		AngryBirdsModel.listeObstacles.add(new ObstacleRond(900, 400, 150));
 	}
 
 	/*
@@ -96,13 +91,12 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 		// fond
 		Image img_fond = null;
 		try {
-			img_fond = ImageIO.read(new File("ressources/Fond_ecran.jpg"));
+			img_fond = ImageIO.read(new File("ressources/Fond.jpg"));
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		g2d.drawImage(img_fond, 0, 0, null);
-		
+		g2d.drawImage(img_fond, 0, 0, Constantes.BORD_DROIT, Constantes.SOL, null);
+
 		//sol
 		g.setColor(new Color(0, 51, 0));
 		g.fillRect(0, Constantes.SOL-100, Constantes.BORD_DROIT, 200);
@@ -123,8 +117,8 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 			try {
 
 				rotation = new AffineTransform();
-				rotation.translate((double) m.PlayerPos[0],
-						(double) m.PlayerPos[1]);
+				rotation.translate((double) AngryBirdsModel.oiseau.getCorpsPosX(),
+						(double) AngryBirdsModel.oiseau.getCorpsPosY());
 				img = ImageIO.read(new File(chemin_image));
 				g2d.drawImage(img, rotation, null);
 			} catch (IOException e) {
@@ -143,10 +137,10 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 			// On dessine la trajectoire
 
 			g.setColor(new Color(0, 0, 0));
-			int size = AngryBirdsModel.trajectoryX.size();
+			int size = m.getX().size();
 			for (int i = 0; i < size; i++) {
-				g.fillRect(AngryBirdsModel.trajectoryX.get(i) + 15,
-						AngryBirdsModel.trajectoryY.get(i) + 15, 5, 5);
+				g.fillRect(m.getX().get(i) + 15,
+						m.getY().get(i) + 15, 5, 5);
 
 			}
 
@@ -167,7 +161,7 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 					.getY().get(m.getCptAngle() + 1));
 
 			rotation = new AffineTransform();
-			rotation.translate((double) m.PlayerPos[0], (double) m.PlayerPos[1]);
+			rotation.translate((double) AngryBirdsModel.oiseau.getCorpsPosX(), (double) AngryBirdsModel.oiseau.getCorpsPosY());
 			rotation.rotate(angle, img.getWidth(null) / 2,
 					img.getHeight(null) / 2);
 			g2d.drawImage(img, rotation, null);
@@ -181,15 +175,15 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 
 		g.setColor(new Color(21, 96, 189));
 
-		for (Obstacle o : AngryBirdsModel.listeObstacles) {
+		for (Obstacle o : AngryBirdsModel.listeCorps) {
 			if (o instanceof ObstacleRond)
 				g.fillOval(
-						(int) (o.getObstaclePosX() + o.getDimensionsHeight() / 2),
-						(int) (o.getObstaclePosY() + o.getDimensionsLenght() / 2),
+						(int) (o.getCorpsPosX() + o.getDimensionsHeight() / 2),
+						(int) (o.getCorpsPosY() + o.getDimensionsLenght() / 2),
 						o.getDimensionsHeight(), o.getDimensionsLenght());
 			else
-				g.fillRect((int) o.getObstaclePosX(),
-						(int) o.getObstaclePosY(), o.getDimensionsHeight(),
+				g.fillRect((int) o.getCorpsPosX(),
+						(int) o.getCorpsPosY(), o.getDimensionsHeight(),
 						o.getDimensionsLenght());
 
 		}
@@ -234,8 +228,8 @@ public class AngryBirdsView extends JPanel implements Observer, MouseListener,
 	public void mousePressed(MouseEvent e) {
 		posOrigine[0] = e.getX();
 		posOrigine[1] = e.getY();
-		if ((posOrigine[0] > m.PlayerPos[0] && posOrigine[0] < m.PlayerPos[0] + 50)
-				&& (posOrigine[1] > m.PlayerPos[1] && posOrigine[1] < m.PlayerPos[1] + 50)) {
+		if ((posOrigine[0] > AngryBirdsModel.oiseau.getCorpsPosX() && posOrigine[0] < AngryBirdsModel.oiseau.getCorpsPosX() + 50)
+				&& (posOrigine[1] > AngryBirdsModel.oiseau.getCorpsPosY() && posOrigine[1] < AngryBirdsModel.oiseau.getCorpsPosY() + 50)) {
 			press = true;
 		}
 	}

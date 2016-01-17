@@ -1,10 +1,6 @@
 package fr.mode.test;
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import org.junit.Test;
 
 import fr.mode.model.Obstacle;
@@ -20,15 +16,15 @@ public class ClassTest{
 	public void test1() {
 		assertTrue(true);
 	}
-	
+
 	@Test
 	public void testPosX(){
-		assertEquals((int)a.getObstaclePosX(),40);
+		assertEquals((int)a.getCorpsPosX(),40);
 	}
 
 	@Test
 	public void testPosY(){
-		assertNotEquals((int)a.getObstaclePosY(),10);
+		assertNotEquals((int)a.getCorpsPosY(),10);
 	}
 
 	@Test
@@ -42,8 +38,8 @@ public class ClassTest{
 	}
 
 
-	
-	
-	
-	
+
+
+
+
 }

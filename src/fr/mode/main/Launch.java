@@ -12,6 +12,7 @@ import fr.mode.view.AngryBirdsView;
  * <b> La classe Launch repr�sente la classe de lancement de l'application </b>
  *
  */
+@SuppressWarnings("serial")
 public class Launch extends JFrame {
 
 	/**
@@ -31,7 +32,7 @@ public class Launch extends JFrame {
 		AngryBirdsModel m = new AngryBirdsModel();
 		AngryBirdsView v = new AngryBirdsView(m);
 
-		
+
 		this.getContentPane().add(v);
 		this.pack();
 	}

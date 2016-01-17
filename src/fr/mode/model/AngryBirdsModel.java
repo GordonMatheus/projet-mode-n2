@@ -1,12 +1,10 @@
 package fr.mode.model;
 
-import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,7 +23,7 @@ public class AngryBirdsModel extends Observable {
 	/*
 	 * VARIABLES GLOBALES
 	 */
-	
+
 	/**
 	 * L'instance actuelle de l'oiseau
 	 */
@@ -42,24 +40,25 @@ public class AngryBirdsModel extends Observable {
 	public int cpt = 0;
 
 	/**
-	 * Compteur interne au modèle servant à calculer l'angle du bec en fonction du point de la trajectoire sur lequel l'oiseau est
+	 * Compteur interne au modèle servant à calculer l'angle du bec en fonction
+	 * du point de la trajectoire sur lequel l'oiseau est
 	 */
 	public int cpt_angle;
 
 	/**
 	 * Liste des positions en X de l'oiseau
 	 */
-	public static List<Integer> trajectoryX = new ArrayList<Integer>();
+	public List<Integer> trajectoryX = new ArrayList<Integer>();
 
 	/**
 	 * Liste des positions en Y de l'oiseau
 	 */
-	public static List<Integer> trajectoryY = new ArrayList<Integer>();
+	public List<Integer> trajectoryY = new ArrayList<Integer>();
 
 	/**
 	 * Liste des corps présents en jeu, les obstacles ici
 	 */
-	public static ArrayList<Corps> listeCorps = new ArrayList<Corps>();
+	public static ArrayList<Obstacle> listeCorps = new ArrayList<Obstacle>();
 
 	/**
 	 * Le Timer de l'animation
@@ -104,14 +103,22 @@ public class AngryBirdsModel extends Observable {
 		// *********************************************************************
 		// Initialiser la position de d�part
 
-		oiseau.corpsPos[0] = 150;
-		oiseau.corpsPos[1] = 750;
-		
+		oiseau.setCorpsPosX(150);
+		oiseau.setCorpsPosY(750);
+
 		// **********************************************************************
 		// Initialiser la vitesse de d�part
 
-		oiseau.corpsSpeed[0] = 8;
-		oiseau.corpsSpeed[1] = -5;
+		oiseau.setCorpsSpeedX(8);
+		oiseau.setCorpsSpeedY(-5);
+
+		// **********************************************************************
+		// Initialiser les obstacles
+
+		listeCorps.add(new ObstacleRect(1200, 200, 80, 50));
+		listeCorps.add(new ObstacleRect(600, 800, 80, 50));
+		listeCorps.add(new ObstacleRect(1400, 100, 40, 50));
+		listeCorps.add(new ObstacleRond(900, 400, 150));
 
 		// **********************************************************************
 		// Initialiser le timer
@@ -141,8 +148,6 @@ public class AngryBirdsModel extends Observable {
 		 */
 		public void run() {
 
-			Random r = new Random();
-
 			if (Constantes.estLance) {
 
 				if (poursuiteAnim()) {
@@ -155,15 +160,14 @@ public class AngryBirdsModel extends Observable {
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 
 						cpt++;
 						etat = 0;
-						oiseau.corpsPos[0] = 150;
-						oiseau.corpsPos[1] = 750;
-						
+						oiseau.setCorpsPosX(150);
+						oiseau.setCorpsPosY(750);
+
 						Constantes.estLance = false;
 
 						trajectoryX.clear();
@@ -181,8 +185,8 @@ public class AngryBirdsModel extends Observable {
 			setChanged();
 			notifyObservers();
 
-			trajectoryX.add((int) oiseau.corpsPos[0]);
-			trajectoryY.add((int) oiseau.corpsPos[1]);
+			trajectoryX.add((int) oiseau.getCorpsPosX());
+			trajectoryY.add((int) oiseau.getCorpsPosY());
 		}
 
 	}
@@ -205,10 +209,10 @@ public class AngryBirdsModel extends Observable {
 			o.mouvement();
 		}
 
-		oiseau.corpsSpeed[1] += 0.1;//(oiseau.poids/1000);
+		oiseau.setCorpsSpeedY(oiseau.getCorpsSpeedY()+0.1); // (oiseau.poids/1000);
 
-		oiseau.corpsPos[0] += oiseau.corpsSpeed[0];
-		oiseau.corpsPos[1] += oiseau.corpsSpeed[1];
+		oiseau.setCorpsPosX(oiseau.getCorpsPosX()+oiseau.getCorpsSpeedX());
+		oiseau.setCorpsPosY(oiseau.getCorpsPosY()+oiseau.getCorpsSpeedY());
 	}
 
 	// *********************************************************************
@@ -223,46 +227,52 @@ public class AngryBirdsModel extends Observable {
 	 */
 	public boolean poursuiteAnim() {
 
-		for (Corps i : listeCorps) {
-			for(int cp=( listeCorps.indexOf(i)); i< listeCorps.size ;i++)
+		for (Obstacle i : listeCorps) {
+			for (int cp = (listeCorps.indexOf(i)); cp < listeCorps.size(); cp++)
 
-			if (i.collision()) {
+				if (i.collision()) {
 
-				try {
-					etat = 1;
-					img = ImageIO.read(new File(
-							"ressources/oiseau_vener_collision.png"));
-				} catch (Exception e) {
-					e.printStackTrace();
+					try {
+						etat = 1;
+						img = ImageIO.read(new File(
+								"ressources/oiseau_vener_collision.png"));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					if (!i.equals(listeCorps.get(cp)))
+						i.appliquerCollision(listeCorps.get(cp));
+
+					setChanged();
+					notifyObservers();
+
+					return false;
 				}
-
-				setChanged();
-				notifyObservers();
-
-				return false;
-			}
 		}
 
-		return (oiseau.corpsPos[0] + Constantes.DIAMETRE) > Constantes.BORD_GAUCHE
-				&& (oiseau.corpsPos[0] + Constantes.DIAMETRE) < Constantes.BORD_DROIT
-				&& (oiseau.corpsPos[1] + Constantes.DIAMETRE) > Constantes.PLAFOND
-				&& (oiseau.corpsPos[1] + Constantes.DIAMETRE) < Constantes.SOL;
+		return (oiseau.getCorpsPosX() + Constantes.DIAMETRE) > Constantes.BORD_GAUCHE
+				&& (oiseau.getCorpsPosX() + Constantes.DIAMETRE) < Constantes.BORD_DROIT
+				&& (oiseau.getCorpsPosY() + Constantes.DIAMETRE) > Constantes.PLAFOND
+				&& (oiseau.getCorpsPosY() + Constantes.DIAMETRE) < Constantes.SOL;
 	}
 
 	/**
 	 * Retourne un tableau d'entier contenant la position (x,y) de l'oiseau
+	 *
 	 * @return un tableau d'entier contenant la position (x,y) de l'oiseau
 	 */
-	public static double[] getPlayerPos() {
-		return oiseau.corpsPos;
+	public double[] getPlayerPos() {
+		return oiseau.getCorpsPos();
 	}
 
 	/**
 	 * Modifie la position de l'oiseau à la position donnée en paramètre
-	 * @param oiseau.corpsPos
+	 *
+	 * @param oiseau
+	 *            .corpsPos
 	 */
 	public void setPlayerPos(double[] newPos) {
-		oiseau.corpsPos = newPos;
+		oiseau.setCorpsPos(newPos);
 
 		setChanged();
 		notifyObservers();
@@ -270,18 +280,20 @@ public class AngryBirdsModel extends Observable {
 
 	/**
 	 * Retourne un tableau d'entier contenant la vitesse (x,y) de l'oiseau
+	 *
 	 * @return un tableau d'entier contenant la vitesse (x,y) de l'oiseau
 	 */
 	public static double[] getPlayerSpeed() {
-		return oiseau.corpsSpeed;
+		return oiseau.getCorpsSpeed();
 	}
 
 	/**
 	 * Modifie la vitesse de l'oiseau à la position donnée en paramètre
+	 *
 	 * @param playerSpeed
 	 */
 	public void setPlayerSpeed(double[] playerSpeed) {
-		oiseau.corpsSpeed = playerSpeed;
+		oiseau.setCorpsSpeed(playerSpeed);
 
 		setChanged();
 		notifyObservers();
@@ -289,6 +301,7 @@ public class AngryBirdsModel extends Observable {
 
 	/**
 	 * Retourne une liste d'entier des positions x de l'oiseau
+	 *
 	 * @return une liste d'entier des positions x de l'oiseau
 	 */
 	public List<Integer> getX() {
@@ -297,6 +310,7 @@ public class AngryBirdsModel extends Observable {
 
 	/**
 	 * Retourne une liste d'entier des positions y de l'oiseau
+	 *
 	 * @return une liste d'entier des positions y de l'oiseau
 	 */
 	public List<Integer> getY() {
@@ -304,18 +318,21 @@ public class AngryBirdsModel extends Observable {
 	}
 
 	/**
-	 * Retourne l'angle donné entre le sol et la droite formée par la position actuelle de l'oiseau avec sa position suivante
+	 * Retourne l'angle donné entre le sol et la droite formée par la position
+	 * actuelle de l'oiseau avec sa position suivante
+	 *
 	 * @param x1
 	 * @param y1
 	 * @param x2
 	 * @param y2
-	 * @return l'angle donné entre le sol et la droite formée par la position actuelle de l'oiseau avec sa position suivante
+	 * @return l'angle donné entre le sol et la droite formée par la position
+	 *         actuelle de l'oiseau avec sa position suivante
 	 */
-	public double getAngle(int x1, int y1, int x2, int y2){
-		double angle = Math.atan2((y1 - y2), (x1 -x2));
-		if(x1 < x2 && y1 > y2)
+	public double getAngle(int x1, int y1, int x2, int y2) {
+		double angle = Math.atan2((y1 - y2), (x1 - x2));
+		if (x1 < x2 && y1 > y2)
 			return angle + Math.PI;
-		else if(x1 < x2){
+		else if (x1 < x2) {
 			angle += 135;
 			return angle;
 		}
@@ -324,6 +341,7 @@ public class AngryBirdsModel extends Observable {
 
 	/**
 	 * Retourne la distance entre deux points
+	 *
 	 * @param x1
 	 * @param y1
 	 * @param x2
@@ -336,6 +354,7 @@ public class AngryBirdsModel extends Observable {
 
 	/**
 	 * Retourne la valeur de cpt_angle
+	 *
 	 * @return la valeur de cpt_angle
 	 */
 	public int getCptAngle() {
@@ -351,6 +370,7 @@ public class AngryBirdsModel extends Observable {
 
 	/**
 	 * Modifie la variable cpt_angle a la valeur donnée en paramètre
+	 *
 	 * @param cpt_angle
 	 */
 	public void setCptAngle(int cpt_angle) {

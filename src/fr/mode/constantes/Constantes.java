@@ -1,7 +1,5 @@
 package fr.mode.constantes;
 
-import java.awt.Toolkit;
-
 /**
  * <b>La classe Constantes contient les constantes utiles au projet</b>
  *
@@ -9,8 +7,8 @@ import java.awt.Toolkit;
 public class Constantes {
 
 	public static boolean estLance =false;
-	
-	
+
+
 	/**
 	 * Le sol de la fenetre
 	 */
